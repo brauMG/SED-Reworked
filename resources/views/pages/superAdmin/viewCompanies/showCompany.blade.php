@@ -1,109 +1,67 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'SuperAddCompanies', 'titlePage' => __('Mostrar Compañia')])
 
 @section('content')
-    <div class="layoutContainer">
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">supervisor_account</span></div>
-                        <div>Lista de Administradores</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewCompanies/create')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">list</span></div>
-                        <div>Lista de Empresas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewSponsors/listSponsors')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><i class="material-icons">format_list_numbered</i></div>
-                        <div>Lista de Patrocinadores</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class='container'>
-        <div data-simplebar class="card-height-add-admin">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Ver Registro de Compañia</h4>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
                         </div>
-                        @if ( session('mensaje') )
-                            <div class="container-edits" style="margin-top: 2%">
-                                <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
-                            </div>
-                        @endif
-                            @csrf
-                            @if ($admin->status == 1)
-                                @if ($admin->companyId == 1)
-                                @else
-                                    <div class="container" role="group">
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#ChangeStatusModal"><i class="fas fa-times-circle" style="background-color: red;color:white;"></i> Deshabilitar</button>
-                                    </div>
-                                @endif
-                            @endif
-                            @if ($admin->status != 1)
-                                @if ($admin->companyId == 1)
-                                @else
-                                    <div class="container" role="group">
-                                        <button class="btn btn-success" data-toggle="modal" data-target="#ChangeStatusModal"><i class="fas fa-check-circle" style="background-color: #5cb85c;color:white;"></i> Habilitar</button>
-                                    </div>
-                                @endif
-                            @endif
-                        <!--TABLES-->
-                    <div class="container-edits">
+                    @endif
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Mostrando Registro de Compañia</h4>
+                        </div>
+
+                        <div class="card-body">
                         <form id="formCompany" style="margin-bottom: 2% !important;">
                             @method('PUT')
                             @csrf
                                 <table class="table-responsive table-card-inline" id="EditCompany_SA">
 
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-building"></i> Empresa</th>
-                                        <td class="td-card"><input type="text" name="name" id="nameC" class="form-control" readonly value="{{ $admin->name }}"></td>
+                                        <th class="th-card pr-1 pr-1"><span class="material-icons" style="vertical-align: sub">business</span> Empresa</th>
+                                        <td class="td-card pl-1"><input type="text" name="name" id="nameC" class="form-control" disabled value="{{ $admin->name }}"></td>
                                     </tr>
 
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-map-marked-alt"></i> Dirección</th>
-                                        <td class="td-card"><input type="text" name="address" id="addressC" class="form-control" readonly value="{{ $admin->address }}">
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">admin_panel_settings</span> Dirección</th>
+                                        <td class="td-card pl-1"><input type="text" name="address" id="addressC" class="form-control" disabled value="{{ $admin->address }}">
                                         </td>
                                     </tr>
 
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-phone-square-alt"></i> Teléfono</th>
-                                        <td class="td-card"><input type="text" name="phoneNumber" id="phoneNumberC" class="form-control" readonly value="{{ $admin->phoneNumber }}"></td>
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">call</span> Teléfono</th>
+                                        <td class="td-card pl-1"><input type="text" name="phoneNumber" id="phoneNumberC" class="form-control" disabled value="{{ $admin->phoneNumber }}"></td>
                                     </tr>
 
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-envelope-open-text"></i> Email</th>
-                                        <td class="td-card"><input type="email" name="email" id="emailC" class="form-control" readonly value="{{ $admin->email }}"></td>
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">email</span> Email</th>
+                                        <td class="td-card pl-1"><input type="email" name="email" id="emailC" class="form-control" disabled value="{{ $admin->email }}"></td>
                                     </tr>
 
                                     @if($admin->status == 1)
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-check-circle"></i> Estado Actual</th>
-                                            <td class="td-card"><input type="text" name="estado" id="emailC" class="form-control" readonly value="Habilitado"></td>
+                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">sentiment_satisfied_alt</span> Estado Actual</th>
+                                            <td class="td-card pl-1"><input type="text" name="estado" id="emailC" class="form-control" disabled value="Habilitado"></td>
                                         </tr>
                                     @else
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-times-circle"></i> Estado Actual</th>
-                                            <td class="td-card"><input type="text" name="estado" id="emailC" class="form-control" readonly value="Deshabilitado"></td>
+                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">sentiment_satisfied_alt</span> Estado Actual</th>
+                                            <td class="td-card pl-1"><input type="text" name="estado" id="emailC" class="form-control" disabled value="Deshabilitado"></td>
                                         </tr>
                                     @endif
 
                                 </table>
                         </form>
-                        <div id="buttContainer">
-                            <div class='container'>
-                                <a href="{{ route('EditCompany', $admin->companyId) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+                            <div class='container text-center mt-3'>
+                                <a href="{{ route('EditCompany', $admin->companyId) }}" class="btn btn-warning"> Editar</a>
                             </div>
-                        </div>
                     </div>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ class AnalistaController extends Controller
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['analista']);
+        Auth::user()->authorizeRoles(['analista']);
         //Tenemos que regresarle las areas del analista
         $userId = Auth::user()->id;//Dame el id del usuario loggeado
         $areas = $this->areasFromAnalista($userId);
@@ -52,12 +52,12 @@ class AnalistaController extends Controller
             ->whereIn('test_concept.testId',$testsId)
             ->get()->toArray();
 
-        return view('analistas.index', compact('areas','concepts'));
+        return view('pages.analistas.index', compact('areas','concepts'));
     }
 
     public function getAreas(Request $request)
     {
-        $request->user()->authorizeRoles(['analista']);
+        Auth::user()->authorizeRoles(['analista']);
         //Tenemos que regresarle las areas del analista
         $userId = Auth::user()->id;//Dame el id del usuario loggeado
         $areas = $this->areasFromAnalista($userId);
@@ -73,7 +73,7 @@ class AnalistaController extends Controller
             ->whereIn('test_concept.testId',$testsId)
             ->get()->toArray();
 
-        return view('analistas.areas', compact('areas','concepts'));
+        return view('pages.analistas.areas', compact('areas','concepts'));
     }
 
     public function areasFromAnalista($userId)
@@ -87,7 +87,7 @@ class AnalistaController extends Controller
 
     public function viewResults(Request $request,$areaId)
     {
-        $request->user()->authorizeRoles(['analista']);
+        Auth::user()->authorizeRoles(['analista']);
         $userId = Auth::user()->id;
         $companyId = User::giveMeCompany(Auth::user());
         $areas = $this->areasFromAnalista($userId);
@@ -123,7 +123,7 @@ class AnalistaController extends Controller
             $results[] = (array)$conceptsResults[array_search($item,$testsConceptsIds)][0];
         }
 
-        return view('analistas.viewResults.results',compact([
+        return view('pages.analistas.viewResults.results',compact([
             'areas',
             'areaSeleccionada',
             'tests',
@@ -221,7 +221,7 @@ class AnalistaController extends Controller
 
     public function test(Request $request, $testId,$conceptId)
     {
-        $request->user()->authorizeRoles(['analista']);
+        Auth::user()->authorizeRoles(['analista']);
         $userId = Auth::user()->id;
         $analist = Auth::user();
         $analistFirstName = $analist->firstName;
@@ -261,7 +261,7 @@ class AnalistaController extends Controller
 
         $with_evidence = 0;
 
-        return view('analistas.test.test',compact('with_evidence','test','selectedConcept','concepts','maturityLevels','attributes','attributesWithEvidences','email', 'name', 'lastName', 'count', 'commonUserId', 'testName', 'emailsAdmins', 'emailsAnalistas','analistFirstName', 'analistLastName'));
+        return view('pages.analistas.test.test',compact('with_evidence','test','selectedConcept','concepts','maturityLevels','attributes','attributesWithEvidences','email', 'name', 'lastName', 'count', 'commonUserId', 'testName', 'emailsAdmins', 'emailsAnalistas','analistFirstName', 'analistLastName'));
     }
 
     public function storeTest(Request $request)

@@ -1,74 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'AdminAddTests', 'titlePage' => __('Mostrar Prueba')])
 
 @section('content')
-    <div class="layoutContainer" >
-        <div class="container mb-4">
-            <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admin')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Áreas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/maturity/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                        <div><i class="material-icons" style="vertical-align: bottom;">
-                                format_list_numbered
-                            </i></div>
-                        <div>Lista de Niveles de Madurez</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/user/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Usuarios</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/area/test/listTest')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Pruebas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/history')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    history
-                                </i></div>
-                            <div>Historial</div>
-                    </a>
-                </div>
-                @if(empty($areas))
-                    <div class="col text-center btn-hover">
-                        <a href="" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-
-                @else
-                    <div class="col text-center btn-hover">
-                        <a href="{{route('adminViewResults',$areas[0]->areaId)}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-
-    <div class="container btn-container">
+    <div class="container text-center mb-3">
 
         <input type="button" id="back_area" class="btn btn-primary" value="Regresar" style="display:none;" onclick="BackAreaTest()">
 
@@ -84,48 +17,52 @@
 
     </div>
 
-    <div class="container">
-        @if ( session('mensaje') )
-            <div class="container-edits" style="margin-top: 2%">
-                <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
-            </div>
-        @endif
-        <div data-simplebar class="card-height-add-test" style="height: 800px !important;">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase" id="title_test">{{$company -> name}}</h4>
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
                         </div>
+                    @endif
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white" id="title_test">{{$company->name}}</h4>
+                        </div>
+
                         <div class="card-body">
 
-                            <div class='container'>
-                                <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"><i class="fas fa-trash"></i> Eliminar Prueba</button>
-                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"><i class="fas fa-trash"></i> Eliminar Concepto</button>
+                            <div class='container text-center mb-3'>
+                                <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
+                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
+                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
                             </div>
 
                                 <div class="form-edits" style="margin-bottom: 2% !important;">
-                                    <table class='table-responsive table-card-inline'>
+                                    <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto" id="tAdmin">
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><span class="material-icons" style="vertical-align: bottom">speaker_notes</span> Prueba</th>
-                                            <td class="td-card">
-                                                <input type="text" name="testName" class="form-control" readonly value="{{ $testData['name'] }}">
+                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">speaker_notes</span> Prueba</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="testName" class="form-control" disabled value="{{ $testData['name'] }}">
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><span class="material-icons" style="vertical-align: bottom">contacts</span> Usuario</th>
-                                            <td class="td-card">
-                                                <input type="text" name="username" class="form-control" readonly value="{{ $test_user_data['username'] }}">
+                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">contacts</span> Usuario</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="username" class="form-control" disabled value="{{ $test_user_data['username'] }}">
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><span class="material-icons" style="vertical-align: bottom">featured_play_list</span> Concepto</th>
-                                            <td class="td-card">
-                                                <input type="text" name="conceptName" class="form-control" readonly value="{{ $test_concept_data['description'] }}">
+                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">featured_play_list</span> Concepto</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="conceptName" class="form-control" disabled value="{{ $test_concept_data['description'] }}">
                                             </td>
                                         </tr>
 
@@ -133,51 +70,51 @@
                                             <!--Atributo1-->
                                             <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
                                                 <label style="font-weight: bold">{{ $attribute[0]['ML'] }}</label><br>
-                                                <i class="fas fa-star"></i>
+                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 1</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute1" class="form-control" readonly value="{{ $attribute[0]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 1</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute1" class="form-control" disabled value="{{ $attribute[0]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion1" readonly>{{ $attribute[0]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion1" disabled>{{ $attribute[0]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 2</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute2" class="form-control" readonly value="{{ $attribute[1]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 2</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute2" class="form-control" disabled value="{{ $attribute[1]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion2" readonly>{{ $attribute[1]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion2" disabled>{{ $attribute[1]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 3</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute3" class="form-control" readonly value="{{ $attribute[2]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 3</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute3" class="form-control" disabled value="{{ $attribute[2]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion3" readonly>{{ $attribute[2]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion3" disabled>{{ $attribute[2]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
@@ -186,51 +123,51 @@
                                             <!--Atributo1-->
                                             <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
                                                 <label style="font-weight: bold">{{ $attribute[3]['ML'] }}</label><br>
-                                                <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 4</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute4" class="form-control" readonly value="{{ $attribute[3]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 4</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute4" class="form-control" disabled value="{{ $attribute[3]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion4" readonly>{{ $attribute[3]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion4" disabled>{{ $attribute[3]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 5</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute5" class="form-control" readonly value="{{ $attribute[4]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 5</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute5" class="form-control" disabled value="{{ $attribute[4]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion5" readonly>{{ $attribute[4]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion5" disabled>{{ $attribute[4]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 6</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute6" class="form-control" readonly value="{{ $attribute[5]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 6</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute6" class="form-control" disabled value="{{ $attribute[5]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion6" readonly>{{ $attribute[5]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion6" disabled>{{ $attribute[5]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
@@ -239,51 +176,51 @@
                                             <!--Atributo1-->
                                             <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
                                                 <label style="font-weight: bold">{{ $attribute[6]['ML'] }}</label><br>
-                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 7</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute7" class="form-control" readonly value="{{ $attribute[6]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 7</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute7" class="form-control" disabled value="{{ $attribute[6]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion7" readonly>{{ $attribute[6]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion7" disabled>{{ $attribute[6]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 8</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute8" class="form-control" readonly value="{{ $attribute[7]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 8</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute8" class="form-control" disabled value="{{ $attribute[7]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion8" readonly>{{ $attribute[7]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion8" disabled>{{ $attribute[7]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 9</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute9" class="form-control" readonly value="{{ $attribute[8]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 9</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute9" class="form-control" disabled value="{{ $attribute[8]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion9" readonly>{{ $attribute[8]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion9" disabled>{{ $attribute[8]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
@@ -292,51 +229,51 @@
                                             <!--Atributo1-->
                                             <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
                                                 <label style="font-weight: bold">{{ $attribute[9]['ML'] }}</label><br>
-                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 10</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute10" class="form-control" readonly value="{{ $attribute[9]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 10</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute10" class="form-control" disabled value="{{ $attribute[9]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion10" readonly>{{ $attribute[9]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion10" disabled>{{ $attribute[9]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 11</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute11" class="form-control" readonly value="{{ $attribute[10]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 11</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute11" class="form-control" disabled value="{{ $attribute[10]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion11" readonly>{{ $attribute[10]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion11" disabled>{{ $attribute[10]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 12</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute12" class="form-control" readonly value="{{ $attribute[11]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 12</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute12" class="form-control" disabled value="{{ $attribute[11]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion12" readonly>{{ $attribute[11]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion12" disabled>{{ $attribute[11]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
@@ -345,60 +282,60 @@
                                             <!--Atributo1-->
                                             <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
                                                 <label style="font-weight: bold">{{ $attribute[12]['ML'] }}</label><br>
-                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 13</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute13" class="form-control" readonly value="{{ $attribute[12]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 13</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute13" class="form-control" disabled value="{{ $attribute[12]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion13" readonly>{{ $attribute[12]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion13" disabled>{{ $attribute[12]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 14</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute14" class="form-control" readonly value="{{ $attribute[13]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 14</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute14" class="form-control" disabled value="{{ $attribute[13]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion14" readonly>{{ $attribute[13]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion14" disabled>{{ $attribute[13]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
 
                                         <tr class="tr-card-complete">
-                                            <th class="th-card"><i class="fas fa-user-tag"></i> Atributo 15</th>
-                                            <td class="td-card">
-                                                <input type="text" name="attribute15" class="form-control" readonly value="{{ $attribute[14]['AD'] }}">
+                                            <th class="th-card pr-1"> Atributo 15</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="attribute15" class="form-control" disabled value="{{ $attribute[14]['AD'] }}">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th class="th-card"><i class="fas fa-question-circle"></i> Sugerencia</th>
-                                            <td class="td-card">
+                                            <th class="th-card pr-1"> Sugerencia</th>
+                                            <td class="td-card pl-1">
                                                 <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion15" readonly>{{ $attribute[14]['AS'] }}</textarea>
+                                                    <textarea class="form-control" rows="5" name="suggestion15" disabled>{{ $attribute[14]['AS'] }}</textarea>
                                                 </div>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class='container'>
-                                    <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"><i class="fas fa-trash"></i> Eliminar Prueba</button>
-                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"><i class="fas fa-trash"></i> Eliminar Concepto</button>
+                                <div class='container text-center mt-3'>
+                                    <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
+                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
+                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
                                 </div>
                         </div>
                     </div>

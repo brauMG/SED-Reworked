@@ -1,110 +1,47 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'AdminAddAreas', 'titlePage' => __('Editar Area')])
 
 @section('content')
-    <div class="layoutContainer" >
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admin')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Áreas</div>
-                    </a>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
+                        </div>
+                    @endif
                 </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/maturity/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                        <div><i class="material-icons" style="vertical-align: bottom;">
-                                format_list_numbered
-                            </i></div>
-                        <div>Lista de Niveles de Madurez</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/user/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Usuarios</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/area/test/listTest')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Pruebas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/history')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    history
-                                </i></div>
-                            <div>Historial</div>
-                    </a>
-                </div>
-                @if(empty($areas))
-                    <div class="col text-center btn-hover">
-                        <a href="" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
 
-                @else
-                    <div class="col text-center btn-hover">
-                        <a href="{{route('adminViewResults',$areas[0]->areaId)}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-
-    <div id="editArea" class="container">
-        <div data-simplebar class="card-height-add-admin">
-            <div class="col text-center">
-            <section class="addArea">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Registro de Área</h4>
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Editar Registro de Area</h4>
+                            <p class="card-category">Realiza los cambios de datos necesarios para editar el area.</p>
                         </div>
 
                         <div class="card-body">
                             <form method="POST" action="{{ route('UpdateArea',[$area->areaId]) }}" id="formEditArea">
                                 @method('PUT')
                                 @csrf
-                                <table class="table-responsive table-card-inline" id="tAdmin">
-                                    <tr class="tr-card-complete">
-                                        <th class="th-card" id="name"><i class="fas fa-file-signature"></i> Nombre de Área</th>
-                                        <td class="td-card">
+                                <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto" id="tAdmin">
+                                    <tr>
+                                        <th class="th-card pr-1" id="name"><span class="material-icons" style="vertical-align: sub">manage_accounts</span> Nombre de Área</th>
+                                        <td class="td-card pl-1">
                                             <input type="text" name="name" id="areaEdi" class="form-control" readonly value="{{ $area->name }}">
                                         </td>
                                     </tr>
                                 </table>
 
-                                <div id="buttContainer" class="container">
-                                    <div class='bttns'>
-                                        <input type="button" value="Editar" class="btn Button_Edit bttn" id="editarA" style="background-color: #25A1F9" onclick="ShowButtonEditArea()">
-                                        <input type="button" value="Eliminar" class="btn Button_Edit bttn" id="deleteA" style="background-color: #d9534f" onclick="$('#NoteDeleteArea').modal()">
-                                        <input type="submit" value="Guardar" class="btn Button_Edit bttn" id="guardarA" style="display: none;background-color: #5cb85c">
-                                        <input type="button" value="Cancelar" class="btn Button Edit bttn" id="cancelarA" style="display:none;background-color: #d9534f;" onclick="EditAreaAD(false)">
-                                    </div>
+                                <div class='container text-center mt-3'>
+                                    <input type="button" value="Editar" class="btn btn-primary" id="editarA" style="background-color: #25A1F9" onclick="ShowButtonEditArea()">
+                                    <input type="button" value="Eliminar" class="btn btn-danger" id="deleteA" style="background-color: #d9534f" onclick="$('#NoteDeleteArea').modal()">
+                                    <input type="submit" value="Guardar" class="btn btn-success" id="guardarA" style="display: none;background-color: #5cb85c">
+                                    <input type="button" value="Cancelar" class="btn btn-warning" id="cancelarA" style="display:none;background-color: #d9534f;" onclick="EditAreaAD(false)">
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </section>
             </div>
         </div>
     </div>

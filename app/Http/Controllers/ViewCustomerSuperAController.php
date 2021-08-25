@@ -18,32 +18,32 @@ class ViewCustomerSuperAController extends Controller
 
     public function show(Request $request,$id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
     	$admin = User::join('companies','companies.companyId','users.companyId')
         ->select('users.*','companies.*','users.email as emailuser','companies.email as emailcompany')
         ->where('users.id',$id)->firstOrFail();
 
-    	return view('superAdmin/viewCostumers/showAdmin' ,compact('admin'));
+    	return view('pages.superAdmin.viewCostumers.showAdmin' ,compact('admin'));
     }
 
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $admin = User::join('companies','companies.companyId','users.companyId')
             ->select('users.*','companies.*','users.email as emailuser','companies.email as emailcompany')
             ->where('users.id',$id)->firstOrFail();
-        return view('superAdmin/viewCostumers/editAdmin', compact('admin'));
+        return view('pages.superAdmin.viewCostumers.editAdmin', compact('admin'));
     }
 
     public function cancel(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         return back()->with('mensajeError', 'La edición fue cancelada');
     }
 
     public function update(Request $request, $uid)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         $admin = User::join('companies','companies.companyId','users.companyId')
             ->select('users.*','companies.*','users.email as emailuser','companies.email as emailcompany')

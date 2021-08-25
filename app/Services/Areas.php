@@ -3,8 +3,7 @@
 
 namespace App\Services;
 
-use App\Area;
-use Auth;
+use App\Models\Area;
 
 class Areas
 {

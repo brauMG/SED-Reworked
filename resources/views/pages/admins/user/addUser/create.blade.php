@@ -1,90 +1,32 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'AdminAddUsers', 'titlePage' => __('Añadir Usuario')])
+
 @section('content')
-    <div class="layoutContainer" >
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admin')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Áreas</div>
-                    </a>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
+                        </div>
+                    @endif
                 </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/maturity/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                        <div><i class="material-icons" style="vertical-align: bottom;">
-                                format_list_numbered
-                            </i></div>
-                        <div>Lista de Niveles de Madurez</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/user/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Usuarios</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/area/test/listTest')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Pruebas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/history')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    history
-                                </i></div>
-                            <div>Historial</div>
-                    </a>
-                </div>
-                @if(empty($areas2))
-                    <div class="col text-center btn-hover">
-                        <a href="" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
 
-                @else
-                    <div class="col text-center btn-hover">
-                        <a href="{{route('adminViewResults',$areas2[0]->areaId)}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div data-simplebar class="card-height-add-user-to-company" style="height: 700px !important;; padding-top: 0% !important;">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">agregar usuario a la empresa</h4>
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Agregar Usuario</h4>
+                            <p class="card-category">Ingresa los datos necesarios para añadir un nuevo usuario a la compañia.</p>
                         </div>
 
                         <div class="card-body">
                             <form method="POST" action="/admins/user/index">
                             @csrf
-                                <table class="table-responsive table-card-inline" id="tAdmin">
-                                    <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-user-check"></i>Nombre de Usuario
+                                <table class="table-responsive table-card-inline" style="width: fit-content !important; height: 350px !important; margin: auto !important;">
+                                    <tr>
+                                        <th class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">badge</span> Nombre de Usuario
                                         </th>
-                                        <td class="td-card"> <input type="text"
+                                        <td class="td-card pl-1"> <input type="text"
                                                 class="form-control @error('username') is-invalid @enderror"
                                                 name="username" value="{{ old('username') }}" required
                                                 autocomplete="username" autofocus>
@@ -96,8 +38,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id="address" class="th-card"><i class="fas fa-key"></i>Contraseña</th>
-                                        <td class="td-card"> <input id="password" type="password"
+                                        <th id="address" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">pin</span>Contraseña</th>
+                                        <td class="td-card pl-1"> <input id="password" type="password"
                                                 class="form-control @error('password') is-invalid @enderror"
                                                 name="password" required autocomplete="new-password">
                                             @error('password')
@@ -108,8 +50,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id="address" class="th-card"><i class="fas fa-lock"></i>Confirmar Contraseña
-                                        <td class="td-card"> <input id="password-confirm" type="password" class="form-control"
+                                        <th id="address" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">lock</span>Confirmar Contraseña
+                                        <td class="td-card pl-1"> <input id="password-confirm" type="password" class="form-control"
                                                 name="password_confirmation" required autocomplete="new-password">
                                             @error('password_confirmation')
                                             <span class="invalid-feedback" role="alert">
@@ -119,8 +61,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id="email" class="th-card"><i class="fas fa-mail-bulk"></i> Correo Electrónico</th>
-                                        <td class="td-card"> <input id="email" type="email"
+                                        <th id="email" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">email</span> Correo Electrónico</th>
+                                        <td class="td-card pl-1"> <input id="email" type="email"
                                                 class="form-control @error('email') is-invalid @enderror" name="email"
                                                 value="{{ old('email') }}" required autocomplete="email">
                                             @error('email')
@@ -131,8 +73,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id="firstName" class="th-card"><i class="fas fa-signature"></i> Nombre</th>
-                                        <td class="td-card"> <input id="firstName" type="text"
+                                        <th id="firstName" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">assignment_ind</span> Nombre</th>
+                                        <td class="td-card pl-1"> <input id="firstName" type="text"
                                                 class="form-control @error('firstName') is-invalid @enderror"
                                                 name="firstName" value="{{ old('firstName') }}" required
                                                 autocomplete="firstName" autofocus>
@@ -144,8 +86,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id="lastName" class="th-card"><i class="fas fa-file-signature"></i> Apellido</th>
-                                        <td class="td-card"> <input id="lastName" type="text"
+                                        <th id="lastName" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">assignment_ind</span> Apellido</th>
+                                        <td class="td-card pl-1"> <input id="lastName" type="text"
                                                 class="form-control @error('lastName') is-invalid @enderror"
                                                 name="lastName" value="{{ old('lastName') }}" required
                                                 autocomplete="lastName" autofocus>
@@ -157,8 +99,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th for="inputGroupSelect01" class="th-card"><i class="fas fa-user-tag"></i> Rol Asignado</th>
-                                        <td class="td-card"> <select type='text' required id="role"
+                                        <th for="inputGroupSelect01" class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">radar</span> Rol Asignado</th>
+                                        <td class="td-card pl-1"> <select type='text' required id="role"
                                                 class="custom-select @error('role') is-invalid @enderror" name="role">
                                                 <option disabled selected>Selecciona el rol
                                                 </option>
@@ -176,14 +118,19 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id='head' class="th-card"><i class="fas fa-chart-area"></i> Áreas Asignadas</th>
-                                        <td class="td-card">
+                                        <th id='head' class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">account_tree</span> Áreas Asignadas</th>
+                                        <td class="td-card pl-1">
                                                 @foreach ($areas as $area)
                                                     @if ($area['companyId'] = $userCompany)
-                                                        <div class="form-check">
-                                                            <input class="form-check-input label-size" type="checkbox" name="areas[{{$area['name']}}]" value="{{ $area['areaId'] }}">
-                                                            <label class="form-check-label label-size" for="defaultCheck1">{{ $area['name'] }}</label>
-                                                        </div>
+                                                    <div class="form-check">
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" name="areas[{{$area['name']}}]" value="{{ $area['areaId'] }}">
+                                                            {{ $area['name'] }}
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                        </label>
+                                                    </div>
                                                     @endif
                                                 @endforeach
                                             @error('area')
@@ -195,12 +142,10 @@
                                     </tr>
                                 </table>
 
-                                <div class="container">
-                                    <button type="submit" class="button-size-08 btn btn-add btn-primary">Agregar Datos</button>
+                                <div class="container text-center mt-3">
+                                    <button type="submit" class="btn btn-primary">Agregar Datos</button>
                                 </div>
                             </form>
-
-                            @include('errors')
                         </div>
                     </div>
                 </div>

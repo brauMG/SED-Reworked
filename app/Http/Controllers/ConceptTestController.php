@@ -34,7 +34,7 @@ class ConceptTestController
 
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $user = auth()->user();
         $userCompany = $user-> companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$userCompany)->get()->toArray();
@@ -53,12 +53,12 @@ class ConceptTestController
         $ml_number = 1;
         $repeat = [1,2,3,4,5];
 
-        return view('admins.area.concept_test.create', compact('areas', 'userCompany', 'roles', 'role_user', 'users', 'repeat', 'tests','attribute_number','ml_number', 'areas2') );
+        return view('pages.admins.area.concept_test.create', compact('areas', 'userCompany', 'roles', 'role_user', 'users', 'repeat', 'tests','attribute_number','ml_number', 'areas2') );
     }
 
     public function store(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $user = auth()->user();
         $companyId = $user->companyId;
         $areaId = $request->input('area');

@@ -32,7 +32,7 @@ class CreateTestController
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $user = auth()->user();
         $userCompany = $user->companyId;
         $id = Auth::user()->companyId;
@@ -53,7 +53,7 @@ class CreateTestController
             )
             ->where('areas.companyId', $userCompany)->get()->toArray();
 
-        return view('admins.area.test.listTest', compact('dataTests', 'areas'));
+        return view('pages.admins.area.test.listTest', compact('dataTests', 'areas'));
     }
 
     public function show($conceptId){
@@ -90,7 +90,7 @@ class CreateTestController
 
         $attribute = array_reverse($Attributes);
 
-        return view('admins/area/test/showTest',compact('test_concept_data','test_user_data', 'MLevel', 'attribute', 'company', 'testData', 'conceptId', 'testId', 'areas'));
+        return view('pages.admins.area.test.showTest',compact('test_concept_data','test_user_data', 'MLevel', 'attribute', 'company', 'testData', 'conceptId', 'testId', 'areas'));
     }
 
     public function edit($conceptId){
@@ -142,12 +142,12 @@ class CreateTestController
 
         $attribute = array_reverse($Attributes);
 
-        return view('admins/area/test/editTest',compact('test_concept_data','test_user_data', 'MLevel', 'attribute', 'company', 'testData', 'conceptId', 'testId', 'users', 'groupML', 'actualGroupML', 'areas'));
+        return view('pages.admins.area.test.editTest',compact('test_concept_data','test_user_data', 'MLevel', 'attribute', 'company', 'testData', 'conceptId', 'testId', 'users', 'groupML', 'actualGroupML', 'areas'));
     }
 
     public function update(Request $request, $conceptId)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
 
         $request->validate([
             'testName' => ['required', 'string','max:255'],
@@ -292,13 +292,13 @@ class CreateTestController
 
     public function cancel(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         return back()->with('mensajeError', 'La edición fue cancelada');
     }
 
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $id = Auth::user()->companyId;
         $areas2 = DB::table('areas')->where('areas.companyId','=',$id)->get()->toArray();
         $user = auth()->user();
@@ -313,7 +313,7 @@ class CreateTestController
         $ml_number = 1;
         $repeat = [1,2,3,4,5];
 
-        return view('admins.area.test.create', compact(/*'areas',*/ 'userCompany', 'roles', 'role_user', 'users', 'groupML', 'tests','attribute_number','ml_number', 'repeat', 'areas2') );
+        return view('pages.admins.area.test.create', compact(/*'areas',*/ 'userCompany', 'roles', 'role_user', 'users', 'groupML', 'tests','attribute_number','ml_number', 'repeat', 'areas2') );
     }
 
     public function store(Request $request)

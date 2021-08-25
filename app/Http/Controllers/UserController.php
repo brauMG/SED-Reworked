@@ -33,9 +33,9 @@ class UserController extends Controller
         // $user = auth()->user()->company;
 
          $user = User::all();
-        return view('users.index', compact('user'));
+        return view('pages.users.index', compact('user'));
 
-        //return view('home');
+        //return view('pages.home');
     }
 
     /**
@@ -67,7 +67,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        return view('pages.users.show', compact('user'));
 
     }
 
@@ -112,7 +112,7 @@ class UserController extends Controller
     public function success(User $user)
 {
     $user = User::latest('created_at')->first();
-    return view('success', compact('user'));
+    return view('pages.success', compact('user'));
 }
 
 }

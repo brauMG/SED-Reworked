@@ -1,8 +1,7 @@
 <?php
-namespace App\Http\Controllers\Test;
+namespace App\Http\Controllers;
 use App\Models\Concept;
 use App\Models\History;
-use App\Http\Controllers\Controller;
 use App\Models\MaturityLevel;
 use App\Models\Test;
 use Illuminate\Http\Request;
@@ -23,7 +22,7 @@ class TestController extends Controller
     //
     public function index(Request $request , $attributeId)
     {
-        $request->user()->authorizeRoles(['analista', 'comun']);
+        Auth::user()->authorizeRoles(['analista', 'comun']);
         $user = auth()->user();
         $userId = Auth::user()->id;
         $testFromUser = Test::testFromUserId($userId);
@@ -39,13 +38,13 @@ class TestController extends Controller
         $evidences = Evidences::whereIn('attributeId',$attributesIds)->get()->toArray();
 
 
-        return view('test.index', compact('selectedAttribute', 'evidences', 'user'));
+        return view('pages.test.index', compact('selectedAttribute', 'evidences', 'user'));
 
     }
 
     public function store(Request $request)
     {
-        $request->user()->authorizeRoles(['analista', 'comun']);
+        Auth::user()->authorizeRoles(['analista', 'comun']);
 
         if($request->hasFile('link'))
         {
@@ -71,19 +70,19 @@ class TestController extends Controller
         }
     }
     public function show(Request $request){
-        $request->user()->authorizeRoles(['analista', 'comun']);
+        Auth::user()->authorizeRoles(['analista', 'comun']);
 
         $attributes = Attribute::get()->toArray();
         $evidences = Evidences::get()->all();
         $user = auth()->user();
         $users = User::all();
 
-        return view('test.show', compact('attributes', 'evidences', 'user', 'users'));
+        return view('pages.test.show', compact('attributes', 'evidences', 'user', 'users'));
     }
     public function edit($evidenceId)
     {
         $data = Evidences::findOrFail($evidenceId);
-        return view('test.edit', compact('data' ));
+        return view('pages.test.edit', compact('data' ));
     }
 
     public function update(Request $request, $evidenceId)

@@ -19,20 +19,20 @@ class CompanyController extends Controller
     public function index()
     {
      $company = Company::all();
-        return view('company.index', compact('company'));
+        return view('pages.company.index', compact('company'));
 
     }
     public function show(Company $company)
    {
        $this->authorize('view', $company);
-        return view('company.show', compact('company'));
+        return view('pages.company.show', compact('company'));
 
     }
 
     public function create()
     {
 
-        return view('company.create');
+        return view('pages.company.create');
     }
 
     public function store()

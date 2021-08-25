@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\Sponsors;
+use App\Models\Sponsors;
 
 class SponsorsInside
 {

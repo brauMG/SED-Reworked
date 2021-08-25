@@ -7,6 +7,7 @@ use App\Models\History;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -15,48 +16,47 @@ class SuperAdminController extends Controller
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
     	$user = User::all();
         $Admins = User::join('companies','companies.companyId','=','users.companyId')
             ->join('role_user','role_user.user_id','=','users.id')
             ->select('companies.*','users.firstName','users.lastName','users.username','users.id','companies.status')
             ->where('role_user.role_id','2')->get();
 
-        return view('superAdmin.index', compact('Admins'));
+        return view('pages.superAdmin.index', compact('Admins'));
     }
 
     public function cancel(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         return back()->with('mensajeError', 'La edición fue cancelada');
     }
 
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $this->authorize('view');
        $countCompanies = Company::where('status','=','1')->count();
 
        if($countCompanies == 0){
-            return view('superAdmin.addCompany.create');
+            return view('pages.superAdmin.addCompany.create');
        }
        else{
-            return view('superAdmin.create');
+            return view('pages.superAdmin.create');
        }
     }
 
     public function createCompany()
     {
-        $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
-
-        return view('superAdmin.addCompany.create');
+        return view('pages.superAdmin.addCompany.create');
     }
 
 
     public function storeCompany()
     {
-       $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         $attributes = $this->validatorCompany();
         $companies = Company::create($attributes);
@@ -66,7 +66,7 @@ class SuperAdminController extends Controller
 
     protected function validatorCompany()
     {
-       $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         return request()->validate([
             'name' => ['required', 'string', 'max:255', 'unique:companies'],
@@ -77,14 +77,14 @@ class SuperAdminController extends Controller
     }
     public function createAdmin()
     {
-       $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         $companies = Company::all(['companyId', 'name']);
-        return view('superAdmin.addAdmin.create', compact('companies'));
+        return view('pages.superAdmin.addAdmin.create', compact('companies'));
     }
     public function storeAdmin()
     {
-       $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         $data = $this->validatorAdmin();
         $admins = User::create([
@@ -103,7 +103,7 @@ class SuperAdminController extends Controller
 
     protected function validatorAdmin()
     {
-       $this->authorize('view');
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         return request()->validate([
             'username' => ['required', 'string','max:255', 'unique:users'],
@@ -119,7 +119,7 @@ class SuperAdminController extends Controller
     {
         $Com = DB::table('companies') ->get();
 
-        return view('/superAdmin/viewCompanies/create', compact('Com'));
+        return view('pages.superAdmin.viewCompanies.create', compact('Com'));
     }
 
     public function show($id)
@@ -129,12 +129,12 @@ class SuperAdminController extends Controller
         ->first();
 
 //        dd($admin);
-        return view('superAdmin/viewCompanies/showCompany', compact('admin'));
+        return view('pages.superAdmin.viewCompanies.showCompany', compact('admin'));
     }
 
     public function update(Request $request,$id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
 
         $company = Company::where('companyId', $id)->firstOrFail();
         $name = $request->input('name');
@@ -207,6 +207,6 @@ class SuperAdminController extends Controller
             ->first();
 
 //        dd($admin);
-        return view('superAdmin/viewCompanies/editCompany', compact('admin'));
+        return view('pages.superAdmin.viewCompanies.editCompany', compact('admin'));
     }
 }

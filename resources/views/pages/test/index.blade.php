@@ -1,72 +1,60 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'Tests', 'titlePage' => __('Evidencia')])
 
 @section('content')
 
-    <div class="layoutContainer">
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/comun') }}" class="btn btns-grid border-light btn-layout btn-grid" style="width: 30% !important;">
-                        <div><i class="material-icons" style="vertical-align: bottom;">
-                                home
-                            </i> </div>
-                        <div>Inicio</div>
-                    </a>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
+                        </div>
+                    @endif
                 </div>
 
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div data-simplebar class="card-height-add-admin">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Subir Evidencia</h4>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Subir Evidencia</h4>
                         </div>
+                            <div class="card-body">
+                                <form action="{{url('/upload')}}" method='POST' enctype="multipart/form-data" id='form'>
+                                    @csrf
 
-                        <div class="card-body">
-                            <form action="{{url('/upload')}}" method='POST' enctype="multipart/form-data" id='form'>
-                                @csrf
+                                    <div class="container" style="color:red !important;">
+                                        Tamaño Máximo del Archivo: 50 MB
+                                    </div>
 
-                                <div class="container" style="color:red !important;">
-                                    Tamaño Máximo del Archivo: 50 MB
-                                </div>
+                                    <div class="container">
+                                        <input name="link" id='link' type="file"
+                                            class="form-control  @error('link') is-invalid @enderror"
+                                            placeholder="Nombre de la empresa" aria-label="Nombre"
+                                            aria-describedby="basic-addon1" required autocomplete="link" autofocus
+                                               value={{Request::old('link')}}></div>
+                                        @error('link')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
 
-                                <div class="container">
-                                    <input name="link" id='link' type="file"
-                                        class="form-control  @error('link') is-invalid @enderror"
-                                        placeholder="Nombre de la empresa" aria-label="Nombre"
-                                        aria-describedby="basic-addon1" required autocomplete="link" autofocus
-                                           value={{Request::old('link')}}></div>
-                                    @error('link')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-
-                                <input type="hidden" name='attributeId' value="{{$selectedAttribute['attributeId']}}"
-                                    required>
+                                    <input type="hidden" name='attributeId' value="{{$selectedAttribute['attributeId']}}"
+                                        required>
 
 
-                                <input type="hidden" value='0' name='verified' required>
-                                @if(Auth::user())
-                                <input type="hidden" value="{{$user->id}}" name='userId' required>
-                                <input type="hidden" value="{{$user->companyId}}" name='companyId' required>
+                                    <input type="hidden" value='0' name='verified' required>
+                                    @if(Auth::user())
+                                    <input type="hidden" value="{{$user->id}}" name='userId' required>
+                                    <input type="hidden" value="{{$user->companyId}}" name='companyId' required>
 
-                                @endif
-                                <div class="buttcontainer">
-                                    <button class="btn btn-add " type='submit' id='butform'>Enviar Archivo</button>
-                                </div>
+                                    @endif
+                                    <div class="container text-center mt-3">
+                                        <button class="btn btn-primary " type='submit' id='butform'>Enviar Archivo</button>
+                                    </div>
 
-                            </form>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                            @include('errors')
                             <div class="message">
                             @if(session("errors"))
                                 @foreach($errors as $error)
@@ -78,13 +66,10 @@
 
                                 @endif
                             </div>
-                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
     </div>
-
-</main>
 
 @endsection

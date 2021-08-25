@@ -19,12 +19,21 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function index(User $user, Request $request)
     {
-     $request->user()->authorizeRoles(['comun','admin','superAdmin','analista']);
-        $user = Auth::user();
-        return view('home', compact('user'));
+        if ($request->user()->hasRole('superadmin')) {
+            return redirect('/superAdmin');
+        }
+        if ($request->user()->hasRole('admin')) {
+            return redirect('/admin');
+        }
+        if ($request->user()->hasRole('analista')) {
+            return redirect('/analista');
+        }
+        if ($request->user()->hasRole('comun')) {
+            return redirect('/comun');
+        }
     }
 }

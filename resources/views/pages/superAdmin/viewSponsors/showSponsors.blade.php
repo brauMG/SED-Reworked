@@ -1,73 +1,39 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'SuperAddSponsors', 'titlePage' => __('Mostrar Patrocinador')])
 
 @section('content')
-    <div class="layoutContainer">
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">supervisor_account</span></div>
-                        <div>Lista de Administradores</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewCompanies/create')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">list</span></div>
-                        <div>Lista de Empresas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewSponsors/listSponsors')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><i class="material-icons">format_list_numbered</i></div>
-                        <div>Lista de Patrocinadores</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class='container'>
-        <div data-simplebar class="card-height-add-sponsor" style="margin-top: 3% !important;">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Ver Registro de Patrocinador</h4>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
                         </div>
-                        <div class="container-company" style="background-color: rgba(18,51,74,0.33)">
-                            <img id="old-image" src="{{ URL::to('/') }}/sponsors/{{ $sponsor->image }}" class="img-thumbnail" width="200" />
-                        </div>
-                        @if ( session('mensaje') )
-                            <div class="container-edits" style="margin-top: 2%">
-                                <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
-                            </div>
-                        @endif
-                        @if ( session('mensajeError') )
-                            <div class="container-edits" style="margin-top: 2%">
-                                <div class="alert alert-danger" class='message' id='message'>{{ session('mensajeError') }}</div>
-                            </div>
                     @endif
-                        <div class="container-edits">
-                            <div class="container btn-group" role="group">
-                                <input type="button" class="btn" value="Datos Personales" style="background-color: #0F4C75; color: white" disabled>
-                            </div>
-                            <!--TABLES-->
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Mostrando Registro de Patrocinador</h4>
+                        </div>
+
+                        <div class="card-body">
                             <form class="form-edits" id="from" style="margin-bottom: 2% !important;">
                                 @csrf
-                                <table class="table-responsive table-card-inline" id="tAdmin">
+                                <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto" id="tAdmin">
                                     <!--TABLA ADMIN-->
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-user-tie"></i> Nombre</th>
-                                        <td class="td-card">
-                                            <input type="text" name="name" id="nameS" class="form-control" readonly value="{{ $sponsor->name }}">
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">drive_file_rename_outline</span> Nombre</th>
+                                        <td class="td-card pl-1">
+                                            <input type="text" name="name" id="nameS" class="form-control" disabled value="{{ $sponsor->name }}">
                                         </td>
                                     </tr>
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fab fa-readme"></i> Descripción</th>
-                                        <td class="td-card">
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">description</span> Descripción</th>
+                                        <td class="td-card pl-1">
                                             <div class="form-group">
-                                                <textarea rows="5" style="background-color: #eff0ee" name="description" id="descriptionS"  class="form-control @error('description') is-invalid @enderror" readonly>{{ $sponsor->description }}</textarea>
+                                                <textarea rows="5" style="background-color: #eff0ee" name="description" id="descriptionS"  class="form-control @error('description') is-invalid @enderror" disabled>{{ $sponsor->description }}</textarea>
                                             </div>
                                             @error('description')
                                             <span class="invalid-feedback" role="alert">
@@ -77,8 +43,8 @@
                                         </td>
                                     </tr>
                                     <tr class="">
-                                        <th id='head' class="th-card"><i class="fas fa-clipboard-check"></i> Compañias Asignadas</th>
-                                        <td class="td-card">
+                                        <th id='head' class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">business</span> Compañias Asignadas</th>
+                                        <td class="td-card pl-1">
                                             @foreach ($companies as $company)
                                                 @if($company['companyId'] == 1)
                                                     <div class="form-check">
@@ -86,8 +52,13 @@
                                                     </div>
                                                 @else
                                                     <div class="form-check">
-                                                        <input class="form-check-input label-size" type="checkbox" name="companies[{{$company['name']}}]" value="{{ $company['companyId'] }}" disabled checked>
-                                                        <label class="form-check-label label-size" for="defaultCheck1">{{ $company['name'] }}</label>
+                                                        <label class="form-check-label">
+                                                            <input class="form-check-input" type="checkbox" name="companies[{{$company['name']}}]" value="{{ $company['companyId'] }}" disabled checked>
+                                                            {{ $company['name'] }}
+                                                            <span class="form-check-sign">
+                                                                <span class="check"></span>
+                                                            </span>
+                                                        </label>
                                                     </div>
                                                 @endif
                                             @endforeach
@@ -99,16 +70,16 @@
                                         </td>
                                     </tr>
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-link"></i> Link</th>
-                                        <td class="td-card">
-                                            <input type="text" name="lastName" id="linkS"  class="form-control" readonly value="{{ $sponsor->link }}">
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">link</span> Link</th>
+                                        <td class="td-card pl-1">
+                                            <input type="text" name="lastName" id="linkS"  class="form-control" disabled value="{{ $sponsor->link }}">
                                         </td>
                                     </tr>
                                     <tr id="tr-image" style="display: none">
-                                        <th class="th-card">
-                                            <i class="far fa-file-image"></i> Imagen (formato .png)
+                                        <th class="th-card pr-1">
+                                            <span class="material-icons" style="vertical-align: sub">image</span> Imagen (formato .png)
                                         </th>
-                                        <td class="td-card">
+                                        <td class="td-card pl-1">
                                             <input type="file" name="image" id="file" class="adjust-file form-control @error('image') is-invalid @enderror" />
                                             @error('image')
                                             <span class="invalid-feedback" role="alert">
@@ -117,9 +88,9 @@
                                             @enderror
                                         </td>
                                     </tr>
-                                    <tr class="">
-                                        <th id='head' class="th-card"><i class="fas fa-check-circle"></i> Mostrar en Inicio</th>
-                                        <td class="td-card">
+                                    <tr style="display: none">
+                                        <th id='head' class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">home</span> Mostrar en Inicio</th>
+                                        <td class="td-card pl-1">
                                             <div class="form-check">
                                                 <input class="form-check-input label-size" type="checkbox" name="show" value="1" disabled checked>
                                                 <label class="form-check-label label-size" for="defaultCheck1">Si</label>
@@ -128,11 +99,9 @@
                                     </tr>
                                 </table>
                             </form>
-                            <div id="buttContainer">
-                                <div class='container'>
-                                    <a href="{{ route('EditSponsor', $sponsor->sponsorId) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-trash"></i> Eliminar Patrocinador</button>
-                                </div>
+                            <div class='container text-center mt-3'>
+                                <a href="{{ route('EditSponsor', $sponsor->sponsorId) }}" class="btn btn-warning">Editar</a>
+                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteModal">Eliminar Patrocinador</button>
                             </div>
                         </div>
                     </div>

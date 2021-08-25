@@ -1,50 +1,34 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'SuperAddCompanies', 'titlePage' => __('Añadir Empresa')])
 
 @section('content')
-    <div class="layoutContainer">
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">supervisor_account</span></div>
-                        <div>Lista de Administradores</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewCompanies/create')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><span class="material-icons">list</span></div>
-                        <div>Lista de Empresas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/superAdmin/viewSponsors/listSponsors')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                        <div><i class="material-icons">format_list_numbered</i></div>
-                        <div>Lista de Patrocinadores</div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <div data-simplebar class="card-height-add-company">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Agregar Compañia</h4>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
                         </div>
+                    @endif
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Agregar Empresa</h4>
+                            <p class="card-category">Ingresa los datos necesarios para añadir una nueva empresa al sistema.</p>
+                        </div>
+
                         <div class="card-body">
                             <form method="POST" action="/CreateCompany/superAdmin">
                                 @csrf
 
-                                <table class="table-responsive table-card-inline">
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card">
-                                                <i class="fas fa-file-signature"></i> Nombre
+                                <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto">
+                                        <tr>
+                                            <th class="th-card pr-1">
+                                                <span class="material-icons" style="vertical-align: sub">contact_mail</span> Nombre
                                             </th>
-                                                <td class="td-card"> <input name="name" type="text"
+                                                <td class="td-card pl-1"> <input name="name" type="text"
                                                         class="form-control  @error('name') is-invalid @enderror"
                                                         placeholder="Nombre de la empresa" aria-label="Nombre"
                                                         aria-describedby="basic-addon1" required autocomplete="name" autofocus
@@ -57,8 +41,8 @@
                                             @enderror
                                         </tr>
                                     <tr>
-                                        <th class="th-card"><i class="fas fa-map-marker-alt"></i> Dirección</th>
-                                        <td class="td-card"> <input name="address" type="text"
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">import_contacts</span> Dirección</th>
+                                        <td class="td-card pl-1"> <input name="address" type="text"
                                                 class="form-control  @error('address') is-invalid @enderror"
                                                 placeholder="Dirección de la empresa" aria-label="address"
                                                 aria-describedby="basic-addon1" required autocomplete="address" autofocus
@@ -72,8 +56,8 @@
                                     </tr>
 
                                     <tr>
-                                        <th class="th-card"><i class="fas fa-phone"></i> Teléfono</th>
-                                        <td class="td-card"> <input name="phoneNumber" type="tel"
+                                        <th class="th-card pr-1"><span class="material-icons" style="vertical-align: sub">call</span> Teléfono</th>
+                                        <td class="td-card pl-1"> <input name="phoneNumber" type="tel"
                                                 class="form-control  @error('phoneNumber') is-invalid @enderror"
                                                 placeholder="Teléfono de la empresa" aria-label="phoneNumber"
                                                 aria-describedby="basic-addon1" required autocomplete="phoneNumber"
@@ -88,8 +72,9 @@
                                     </tr>
 
                                     <tr>
-                                        <th class="th-card"><i class="fas fa-envelope-square"></i> Correo electrónico</th>
-                                        <td class="td-card">
+                                        <th class="th-card pr-1">
+                                            <span class="material-icons" style="vertical-align: sub">mark_email_read</span> Correo electrónico</th>
+                                        <td class="td-card pl-1">
                                             <input name="email" type="email"
                                                 class="form-control  @error('email') is-invalid @enderror"
                                                 placeholder="Correo electrónico de la empresa" aria-label="email"
@@ -105,12 +90,11 @@
                                     </tr>
                                 </table>
 
-                                <div class="container">
-                                        <button type="submit" class="button-size-08 btn btn-add btn-primary">Agregar Datos</button>
+                                <div class="container my-3 text-center">
+                                        <button type="submit" class="btn btn-primary">Agregar Datos</button>
                                 </div>
 
                             </form>
-                            @include('errors')
                         </div>
                     </div>
         </div>

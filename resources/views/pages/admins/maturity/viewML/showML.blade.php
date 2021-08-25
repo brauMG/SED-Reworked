@@ -1,123 +1,47 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'AdminAddML', 'titlePage' => __('Mostrar Niveles de Madurez')])
 
 @section('content')
-    <div class="layoutContainer" >
-        <div class="container mb-4">
+    <div class="content">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admin')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Áreas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/maturity/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                        <div><i class="material-icons" style="vertical-align: bottom;">
-                                format_list_numbered
-                            </i></div>
-                        <div>Lista de Niveles de Madurez</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{ url('/admins/user/index') }}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Usuarios</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/area/test/listTest')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    format_list_numbered
-                                </i></div>
-                            <div>Lista de Pruebas</div>
-                    </a>
-                </div>
-                <div class="col text-center btn-hover">
-                    <a href="{{url('/admins/history')}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    history
-                                </i></div>
-                            <div>Historial</div>
-                    </a>
-                </div>
-                @if(empty($areas))
-                    <div class="col text-center btn-hover">
-                        <a href="" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-
-                @else
-                    <div class="col text-center btn-hover">
-                        <a href="{{route('adminViewResults',$areas[0]->areaId)}}" class="btn btns-grid border-light btn-layout btn-grid">
-                            <div><i class="material-icons" style="vertical-align: bottom;">
-                                    remove_red_eye
-                                </i></div>
-                            <div>Ver Resultados</div>
-                        </a>
-                    </div>
-                @endif
-            </div>
-        </div>
-    </div>
-
-    <div class='container'>
-        <div data-simplebar class="card-height-add-sponsor">
-            <div class="col text-center">
-                <div class="justify-content-center">
-                    <div class="card card-add-company">
-
-                        <div class="card-header card-header-cute">
-                            <h4 class="no-bottom" style="text-transform: uppercase">Ver Registro de Nivel de Madurez</h4>
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
                         </div>
-                        @if ( session('mensaje') )
-                            <div class="container-edits" style="margin-top: 2%">
-                                <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
-                            </div>
-                        @endif
-                        @if ( session('mensajeError') )
-                            <div class="container-edits" style="margin-top: 2%">
-                                <div class="alert alert-danger" class='message' id='message'>{{ session('mensajeError') }}</div>
-                            </div>
-                        @endif
-                        <div class="container-edits">
-                            <div class="container btn-group" role="group">
-                                <input type="button" class="btn" value="Datos" style="background-color: #0F4C75; color: white" disabled>
-                            </div>
-                            <!--TABLES-->
+                    @endif
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card" style="width: fit-content; margin: auto">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Mostrando Registro de Niveles de Madurez</h4>
+                        </div>
+
+                        <div class="card-body">
                             <form class="form-edits" id="from" style="margin-bottom: 2% !important;">
                                 @csrf
-                                <table class="table-responsive table-card-inline" id="tAdmin">
+                                <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto" id="tAdmin">
                                     <tr class="tr-card-complete">
-                                        <th class="th-card"><i class="fas fa-link"></i> Nombre del grupo</th>
-                                        <td class="td-card">
-                                            <input type="text" name="link" id="linkS"  class="form-control" readonly value="{{ $group[0]['name'] }}">
+                                        <th class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">badge</span> Nombre del grupo</th>
+                                        <td class="td-card pl-1">
+                                            <input type="text" name="link" id="linkS"  class="form-control" disabled value="{{ $group[0]['name'] }}">
                                         </td>
                                     </tr>
                                     @php($count=1)
                                     @foreach ($maturity_levels as $ml)
                                         <tr class="tr-card-complete">
-                                            <th class="th-card">Nivel <i class="fas fa-hashtag"></i>{{$count}}</th>
-                                            <td class="td-card">
-                                                <input type="text" name="maturityName[{{ $ml['maturityLevelId'] }}]" id="{{$count}}" class="form-control DescMaturity" readonly value="{{ $ml['description']}}">
+                                            <th class="th-card pr-1"><span style="vertical-align: sub" class="material-icons">star_rate</span>Nivel {{$count}}</th>
+                                            <td class="td-card pl-1">
+                                                <input type="text" name="maturityName[{{ $ml['maturityLevelId'] }}]" id="{{$count}}" class="form-control DescMaturity" disabled value="{{ $ml['description']}}">
                                             </td>
                                         </tr>
                                         @php($count++)
                                     @endforeach
                                 </table>
                             </form>
-                            <div id="buttContainer">
-                                <div class='container'>
-                                    <a href="{{ route('EditML', $groupId->MLGroupId) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-{{--                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteModal"><i class="fas fa-trash"></i> Eliminar Grupo</button>--}}
-                                </div>
+                            <div class='container text-center mt-3'>
+                                <a href="{{ route('EditML', $groupId->MLGroupId) }}" class="btn btn-warning">Editar</a>
                             </div>
                         </div>
                     </div>

@@ -22,7 +22,7 @@ class ComunController extends Controller
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['comun']);
+        Auth::user()->authorizeRoles(['comun']);
         $userId = Auth::user()->id;//Dame el id del usuario loggeado
         $testsIdFromUser = DB::table('test_user')->where('userId',$userId)->get()->toArray();
         $testsIdFromUser= array_column($testsIdFromUser,'testId');
@@ -38,12 +38,12 @@ class ComunController extends Controller
             ->select('areas.name as areaName','tests.testId','tests.name as testName','concepts.conceptId','concepts.description', 'tests.startedAt as date')
             ->whereIn('test_concept.testId',$testsId)
             ->get()->toArray();
-        return view('comunes.index',compact('tests','concepts'));
+        return view('pages.comunes.index',compact('tests','concepts'));
     }
 
     public function test(Request $request, $testId,$conceptId)
     {
-        $request->user()->authorizeRoles(['comun']);
+        Auth::user()->authorizeRoles(['comun']);
         $userId = Auth::user()->id;
         $testsIdFromUser = DB::table('test_user')->where('userId',$userId)->get()->toArray();
         $testsIdFromUser= array_column($testsIdFromUser,'testId');
@@ -63,6 +63,6 @@ class ComunController extends Controller
 
         $with_evidence = 0;
 
-        return view('comunes.test.test',compact('test','selectedConcept','concepts','maturityLevels','attributes','attributesWithEvidences', 'with_evidence'));
+        return view('pages.comunes.test.test',compact('test','selectedConcept','concepts','maturityLevels','attributes','attributesWithEvidences', 'with_evidence'));
     }
 }

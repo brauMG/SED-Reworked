@@ -15,26 +15,26 @@ class SponsorsController
 {
     public function showList(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $sponsors = Sponsors::all();
-        return view('superAdmin/viewSponsors/listSponsors', compact('sponsors'));
+        return view('pages.superAdmin.viewSponsors.listSponsors', compact('sponsors'));
     }
 
     public function show(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $sponsor = Sponsors::where('sponsorId', $id)->firstOrFail();
 
         $companies = Company::join('sponsors_companies', 'sponsors_companies.companyId', 'companies.companyId')
             ->where('sponsors_companies.sponsorId', $id)
             ->get()->toArray();
 
-        return view('superAdmin/viewSponsors/showSponsors', compact('sponsor', 'companies'));
+        return view('pages.superAdmin.viewSponsors.showSponsors', compact('sponsor', 'companies'));
     }
 
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $sponsor = Sponsors::where('sponsorId', $id)->firstOrFail();
         $companies = Company::all();
         $sponsors_companies = Company::join('sponsors_companies', 'sponsors_companies.companyId', 'companies.companyId')
@@ -53,18 +53,18 @@ class SponsorsController
             $valid = false;
         }
 
-        return view('superAdmin/viewSponsors/editSponsor', compact('sponsor', 'companies', 'array_companies'));
+        return view('pages.superAdmin.viewSponsors.editSponsor', compact('sponsor', 'companies', 'array_companies'));
     }
 
     public function cancel(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         return back()->with('mensajeError', 'La edición fue cancelada');
     }
 
     public function update(Request $request, $sponsorId)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $companies = $request->input('companies');
         $show = $request->input('show');
 
@@ -126,21 +126,21 @@ class SponsorsController
 
     public function delete(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         Sponsors::where('sponsorId', $id)->delete();
         return redirect('/superAdmin')->with('mensaje', 'El patrocinador fue eliminado exitosamente.');
     }
 
     public function createSponsor(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $companies = Company::all();
-        return view('superAdmin/addSponsors/create', compact('companies'));
+        return view('pages.superAdmin.addSponsors.create', compact('companies'));
     }
 
     public function storeSponsor(Request $request)
     {
-        $request->user()->authorizeRoles(['superAdmin']);
+        Auth::user()->authorizeRoles(['superAdmin']);
         $companies = $request->input('companies');
         $show = $request->input('show');
         $request->validate([

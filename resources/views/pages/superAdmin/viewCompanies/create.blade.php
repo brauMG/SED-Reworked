@@ -1,101 +1,123 @@
-@extends('layouts.app')
+@extends('layouts.app', ['activePage' => 'SuperListCompanies', 'titlePage' => __('Lista de Empresas')])
 
 @section('content')
-@php($count=1)
-<div class="layoutContainer">
-    <div class="container mb-4">
-        <div class="row">
-            <div class="col text-center btn-hover">
-                <a href="{{url('/superAdmin')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                    <div><span class="material-icons">supervisor_account</span></div>
-                    <div>Lista de Administradores</div>
-                </a>
-            </div>
-            <div class="col text-center btn-hover">
-                <a class="selected btn border-light btn-layout btn-grid btns-grid" disabled>
-                    <div><span class="material-icons">list</span></div>
-                    <div>Lista de Empresas</div>
-                </a>
-            </div>
-            <div class="col text-center btn-hover">
-                <a href="{{url('/superAdmin/viewSponsors/listSponsors')}}" class="btn border-light btn-layout btn-grid btns-grid">
-                    <div><i class="material-icons">format_list_numbered</i></div>
-                    <div>Lista de Patrocinadores</div>
-                </a>
+    @php($count=1)
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    @if ( session('mensaje') )
+                        <div class="container-edits" style="margin-top: 2%">
+                            <div class="alert alert-success" class='message' id='message'>{{ session('mensaje') }}</div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h4 class="card-title text-white">Lista de Empresas</h4>
+                            <p class="card-category">Estas son las empresas registradas en el sistema.</p>
+                            <a type="button" class="btn btn-primary" id="new" href="{{url('/CreateCompany/addCompany/create')}}">Agregar Empresa <i class="material-icons">add_box</i></a>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered data-table">
+                                    <thead class="thead-color text-primary">
+                                    <th>ID<i class="material-icons sort">sort</i></th>
+                                    <th>ESTADO<i class="material-icons sort">sort</i></th>
+                                    <th>EMPRESA<i class="material-icons sort">sort</i></th>
+                                    <th>DIRECCIÓN<i class="material-icons sort">sort</i></th>
+                                    <th>TELÉFONO<i class="material-icons sort">sort</i></th>
+                                    <th>CORREO<i class="material-icons sort">sort</i></th>
+                                    <th>REGISTRO<i class="material-icons sort">sort</i></th>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($Com as $C)
+                                        @if($C->companyId != 1)
+                                            <tr>
+                                                <td>{{$count}}</td>
+                                                <td class="text-center">
+                                                    <form class='form'  method="POST" action="{{ route('status',$C->companyId) }}">
+                                                        @method('PUT')
+                                                        @csrf
+                                                        @if ($C->status == 0)
+                                                            <input type="hidden" name="status" style="width: 0px;border:none; " readonly value="1">
+                                                            <input type="submit" value="Deshabilitado" class="btn btn-danger" disabled>
+                                                        @endif
+                                                        @if ($C->status != 0)
+                                                            <input type="hidden" name="status" style="width: 0px;border:none; " readonly value="0">
+                                                            <input type="submit" value="Habilitado" class="btn btn-success" disabled>
+                                                        @endif
+                                                    </form>
+                                                </td>
+                                                <td>{{$C -> name}}</td>
+                                                <td>{{$C -> address}}</td>
+                                                <td>{{$C -> phoneNumber}}</td>
+                                                <td>{{$C -> email}}</td>
+                                                <td class="action-row text-center">
+                                                    <a href="{{ route('ShowCompanySA', $C->companyId) }}" class="btn btn-info btn-adjust"><i class="material-icons">sticky_note_2</i> Mostrar</a>
+                                                    <a href="{{ route('EditCompany', $C->companyId) }}" class="btn btn-warning btn-adjust"><i class="material-icons">edit</i> Editar</a>
+                                                </td>
+                                            </tr>
+                                        @endif
+                                        @php($count++)
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="col text-center btn-hover2">
-    <a href="{{url('CreateCompany/addCompany/create')}}" class="btn btn-primary">
-        <div><i class="material-icons">location_city</i></div>
-        <div>Añadir Empresa</div>
-    </a>
-</div>
+    <script>
+        $('.data-table').DataTable({
+                responsive: true,
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    ['10 Filas', '25 Filas', '50 Filas', 'Mostrar todo']
+                ],
+                dom: 'Blfrtip',
+                buttons: [
+                    { extend: 'pdf', text: 'Exportar a PDF',charset: 'UTF-8' },
+                    { extend: 'csv', text: 'Exportar a EXCEL',charset: 'UTF-8'  }
+                ],
+                language: {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla =(",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    },
+                    "buttons": {
+                        "copy": "Copiar",
+                        "colvis": "Visibilidad",
+                        "print": "Imprimir",
+                        "csv": "Excel"
+                    }
+                },
 
-<div class="container">
-    <div data-simplebar class="table-responsive table-height">
-        <div class="col text-center">
-            <table class="table table-striped table-bordered mydatatable">
-                <thead class="table-header">
-                    <tr>
-                        <td class=''>#</td>
-                        <td class=''>ESTADO</td>
-                        <td class=''>EMPRESA</td>
-                        <td class=''>DIRECCIÓN</td>
-                        <td class=''>TELÉFONO</td>
-                        <td class=''>CORREO</td>
-                        <td class=''>REGISTRO</td>
-                    </tr>
-                </thead>
-		<tbody class="">
-		@foreach($Com as $C)
-            @if($C->companyId != 1)
-			<tr>
-				<td class="td-center">{{$count}}</td>
-				<td class="td-center">
-                    <form class='form'  method="POST" action="{{ route('status',$C->companyId) }}">
-                        @method('PUT')
-                        @csrf
-                        @if ($C->status == 0)
-                            <input type="hidden" name="status" style="width: 0px;border:none; " readonly value="1">
-                            <input type="submit" value="Deshabilitado" class="btn btn-unavailable" disabled>
-                             @endif
-                        @if ($C->status != 0)
-                            <input type="hidden" name="status" style="width: 0px;border:none; " readonly value="0">
-                            <input type="submit" value="Habilitado" class="btn btn-available" disabled>
-                        @endif
-                    </form>
-                </td>
-                <td class="td td-center">{{$C -> name}}</td>
-                <td class="td td-center">{{$C -> address}}</td>
-                <td class="td td-center">{{$C -> phoneNumber}}</td>
-                <td class="td td-center">{{$C -> email}}</td>
-                <td class="td td-center">
-                    <a href="{{ route('ShowCompanySA', $C->companyId) }}" class="btn-row btn btn-info"><i class="fas fa-bookmark"></i> Mostrar</a>
-                    <a href="{{ route('EditCompany', $C->companyId) }}" class="btn-row btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
-                </td>
-			</tr>
-            @endif
-            @php($count++)
-		@endforeach
-                <tfoot class="table-footer">
-                <tr>
-                    <td class=''>#</td>
-                    <td class=''>ESTADO</td>
-                    <td class=''>EMPRESA</td>
-                    <td class=''>DIRECCIÓN</td>
-                    <td class=''>TELÉFONO</td>
-                    <td class=''>CORREO</td>
-                    <td class=''>REGISTRO</td>
-                </tr>
-                </tfoot>
-            </table>
-        </div>
-    </div>
-</div>
-<script>
-    $('.mydatatable').DataTable();
-</script>
+            }
+        );
+    </script>
 @endsection

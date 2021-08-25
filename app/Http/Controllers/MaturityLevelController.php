@@ -19,27 +19,27 @@ class MaturityLevelController extends Controller
 
     public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $id = Auth::user()->companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$id)->get()->toArray();
 
         $maturity_levels_groups = MaturityLevelsGroup::where('companyId', $id)->get();
 
-        return view('admins/maturity/index', compact('maturity_levels_groups', 'areas'));
+        return view('pages.admins.maturity.index', compact('maturity_levels_groups', 'areas'));
     }
 
     public function create(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $id = Auth::user()->companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$id)->get()->toArray();
 
-        return view('admins/maturity/addML/create', compact('areas'));
+        return view('pages.admins.maturity.addML.create', compact('areas'));
     }
 
     public function store(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $id = Auth::user()->companyId;
 
         $request->validate([
@@ -75,7 +75,7 @@ class MaturityLevelController extends Controller
 
     public function show(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $idCompany = Auth::user()->companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$idCompany)->get()->toArray();
         $groupId = MaturityLevelsGroup::where('MLGroupId', $id)->firstOrFail();
@@ -83,12 +83,12 @@ class MaturityLevelController extends Controller
         $maturity_levels = MaturityLevel::where('MLGroupId', $id)
             ->get()->toArray();
 
-        return view('admins/maturity/viewML/showML', compact('groupId', 'maturity_levels', 'group', 'areas'));
+        return view('pages.admins.maturity.viewML.showML', compact('groupId', 'maturity_levels', 'group', 'areas'));
     }
 
     public function edit(Request $request, $id)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         $idCompany = Auth::user()->companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$idCompany)->get()->toArray();
         $groupId = MaturityLevelsGroup::where('MLGroupId', $id)->firstOrFail();
@@ -96,12 +96,12 @@ class MaturityLevelController extends Controller
         $maturity_levels = MaturityLevel::where('MLGroupId', $id)
             ->get()->toArray();
 
-        return view('admins/maturity/viewML/editML', compact('groupId', 'maturity_levels', 'group', 'areas'));
+        return view('pages.admins.maturity.viewML.editML', compact('groupId', 'maturity_levels', 'group', 'areas'));
     }
 
     public function cancel(Request $request)
     {
-        $request->user()->authorizeRoles(['admin']);
+        Auth::user()->authorizeRoles(['admin']);
         return back()->with('mensajeError', 'La edición fue cancelada');
     }
 

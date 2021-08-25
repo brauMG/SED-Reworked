@@ -53,7 +53,7 @@ class AreaController extends Controller
 
     public function beta()
     {
-      return view('admins.area.test.beta');
+      return view('pages.admins.area.test.beta');
     }
 
     public function showArea(Request $request, $id)
@@ -63,7 +63,7 @@ class AreaController extends Controller
 //        $name = $area->name;
         $id = Auth::user()->companyId;
         $areas = DB::table('areas')->where('areas.companyId','=',$id)->get()->toArray();
-        return view('/admins/area/Edit/editArea', compact('area', 'areas'));
+        return view('pages.admins.area.Edit.editArea', compact('area', 'areas'));
     }
 
     public function EditArea(Request $request, $id)
