@@ -12,7 +12,6 @@
                     @endif
                 </div>
 
-                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-dark">
                             <h4 class="card-title text-white">Resultados</h4>
@@ -41,7 +40,6 @@
                         </div>
 
                         @foreach($tests as $test)
-                            <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header card-header-info">
                                         <h4 class="card-title">{{$test['name']}}</h4>
@@ -54,7 +52,7 @@
                                         @endforeach
                                     </div>
                                     <div class="card-body">
-
+                                        <div class="row">
                                             <div class="col-md-6 charts-list-scroll">
                                                 <table class="table-bordered table-striped charts-table">
                                                     <thead>
@@ -133,11 +131,10 @@
                                             <div class="col-md-6" style="height: 20vh">
                                                 <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
