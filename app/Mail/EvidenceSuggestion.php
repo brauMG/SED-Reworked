@@ -47,6 +47,6 @@ class EvidenceSuggestion extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.evidence-suggestion');
+        return $this->view('pages.emails.evidence-suggestion');
     }
 }

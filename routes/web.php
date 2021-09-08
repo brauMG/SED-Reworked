@@ -128,7 +128,10 @@ Route::get('/Area/Test/Concept/MaturityL/{id}', 'App\Http\Controllers\AdminsCont
 Route::get('/Area/Test/Concept/Attributes/{id}', 'App\Http\Controllers\AdminsController@showAtributtes');
 //-----------------------------------------------File Upload----------------------------------------------------------------------------
 Route::get('/upload/{id}', 'App\Http\Controllers\TestController@index');
-Route::resource('/upload', 'App\Http\Controllers\TestController');
+Route::post('/upload/create', 'App\Http\Controllers\TestController@store');
+Route::get('/upload/{id}/edit', 'App\Http\Controllers\TestController@edit');
+Route::put('/upload/update/{id}', 'App\Http\Controllers\TestController@update');
+
 //-------------------------------------------------Analista---------------------------------------------------------------------------
 Route::get('/analista', 'App\Http\Controllers\AnalistaController@index');
 Route::get('/areas', 'App\Http\Controllers\AnalistaController@getAreas');

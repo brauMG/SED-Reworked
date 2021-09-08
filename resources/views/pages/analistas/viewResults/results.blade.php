@@ -26,7 +26,7 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                         @foreach($areas as $area)
-                                            <a href="{{route('adminViewResults',$area['areaId'])}}">
+                                            <a href="{{route('analistaViewResults',$area['areaId'])}}">
                                                 <button class="dropdown-item " type="button">{{$area['name']}}
                                                 </button>
                                             </a>
@@ -130,12 +130,11 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div class="col-md-6" style="height: 20vh">
+                                                <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" style="height: 35vh">
-                                        <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
-                                    </div>
-
                                 </div>
                             </div>
                     </div>
@@ -148,7 +147,7 @@
             @foreach($tests as $test)
         var ctx = document.getElementById("myChart{{array_search($test,$tests)}}");
         var lineChart = new Chart(ctx, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
                 labels: [
                     @foreach((array)$testsConcepts as $testConcept)
@@ -175,6 +174,12 @@
                 }]
             },
             options: {
+                plugins:{
+                    legend: {
+                        display: false
+                    }
+                },
+                indexAxis: 'y',
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -195,7 +200,12 @@
                     display: false
                 },
                 tooltips: {
-                    enabled: true
+                    enabled: true,
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.yLabel;
+                        }
+                    }
                 }
             }
         });

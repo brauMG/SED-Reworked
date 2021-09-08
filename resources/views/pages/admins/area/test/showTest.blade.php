@@ -27,319 +27,198 @@
                         </div>
                     @endif
                 </div>
+            </div>
 
-                <div class="col-md-12">
-                    <div class="card" style="width: fit-content; margin: auto">
-                        <div class="card-header bg-dark">
-                            <h4 class="card-title text-white" id="title_test">{{$company->name}}</h4>
-                        </div>
 
-                        <div class="card-body">
-
-                            <div class='container text-center mb-3'>
-                                <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
-                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
-                                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
-                            </div>
-
-                                <div class="form-edits" style="margin-bottom: 2% !important;">
-                                    <table class="table-responsive table-card-inline" style="width: fit-content !important;; margin: auto" id="tAdmin">
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">speaker_notes</span> Prueba</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="testName" class="form-control" disabled value="{{ $testData['name'] }}">
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">contacts</span> Usuario</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="username" class="form-control" disabled value="{{ $test_user_data['username'] }}">
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"><span class="material-icons" style="vertical-align: bottom">featured_play_list</span> Concepto</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="conceptName" class="form-control" disabled value="{{ $test_concept_data['description'] }}">
-                                            </td>
-                                        </tr>
-
-                                        <tr class='tr-card-complete'>
-                                            <!--Atributo1-->
-                                            <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
-                                                <label style="font-weight: bold">{{ $attribute[0]['ML'] }}</label><br>
-                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 1</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute1" class="form-control" disabled value="{{ $attribute[0]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion1" disabled>{{ $attribute[0]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 2</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute2" class="form-control" disabled value="{{ $attribute[1]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion2" disabled>{{ $attribute[1]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 3</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute3" class="form-control" disabled value="{{ $attribute[2]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion3" disabled>{{ $attribute[2]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class='tr-card-complete'>
-                                            <!--Atributo1-->
-                                            <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
-                                                <label style="font-weight: bold">{{ $attribute[3]['ML'] }}</label><br>
-                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 4</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute4" class="form-control" disabled value="{{ $attribute[3]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion4" disabled>{{ $attribute[3]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 5</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute5" class="form-control" disabled value="{{ $attribute[4]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion5" disabled>{{ $attribute[4]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 6</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute6" class="form-control" disabled value="{{ $attribute[5]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion6" disabled>{{ $attribute[5]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class='tr-card-complete'>
-                                            <!--Atributo1-->
-                                            <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
-                                                <label style="font-weight: bold">{{ $attribute[6]['ML'] }}</label><br>
-                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 7</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute7" class="form-control" disabled value="{{ $attribute[6]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion7" disabled>{{ $attribute[6]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 8</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute8" class="form-control" disabled value="{{ $attribute[7]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion8" disabled>{{ $attribute[7]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 9</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute9" class="form-control" disabled value="{{ $attribute[8]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion9" disabled>{{ $attribute[8]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class='tr-card-complete'>
-                                            <!--Atributo1-->
-                                            <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
-                                                <label style="font-weight: bold">{{ $attribute[9]['ML'] }}</label><br>
-                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 10</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute10" class="form-control" disabled value="{{ $attribute[9]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion10" disabled>{{ $attribute[9]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 11</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute11" class="form-control" disabled value="{{ $attribute[10]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion11" disabled>{{ $attribute[10]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 12</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute12" class="form-control" disabled value="{{ $attribute[11]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion12" disabled>{{ $attribute[11]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class='tr-card-complete'>
-                                            <!--Atributo1-->
-                                            <td  class='bold' id="address addy" colspan="2">Nivel de Madurez:
-                                                <label style="font-weight: bold">{{ $attribute[12]['ML'] }}</label><br>
-                                                <span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span><span class="material-icons" style="vertical-align: bottom">star_rate</span>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 13</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute13" class="form-control" disabled value="{{ $attribute[12]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion13" disabled>{{ $attribute[12]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 14</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute14" class="form-control" disabled value="{{ $attribute[13]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion14" disabled>{{ $attribute[13]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr class="tr-card-complete">
-                                            <th class="th-card pr-1"> Atributo 15</th>
-                                            <td class="td-card pl-1">
-                                                <input type="text" name="attribute15" class="form-control" disabled value="{{ $attribute[14]['AD'] }}">
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th class="th-card pr-1"> Sugerencia</th>
-                                            <td class="td-card pl-1">
-                                                <div class="form-group">
-                                                    <textarea class="form-control" rows="5" name="suggestion15" disabled>{{ $attribute[14]['AS'] }}</textarea>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class='container text-center mt-3'>
-                                    <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
-                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
-                                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
-                                </div>
-                        </div>
-                    </div>
+                <div class='container text-center mb-3'>
+                    <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
+                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
+                    <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
                 </div>
+
+
+            <div class="form-group">
+                <label for="name">Prueba</label>
+                <input type="text" name="testName" class="form-control" disabled value="{{ $testData['name'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" name="username" class="form-control" disabled value="{{ $test_user_data['username'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="conceptName">Concepto</label>
+                <input type="text" name="conceptName" class="form-control" disabled value="{{ $test_concept_data['description'] }}">
+            </div>
+
+            <h3 class="text-center title">Nivel de Madurez: <strong>{{ $attribute[0]['ML'] }}</strong></h3>
+
+            <div class="form-group">
+                <label for="">Atributo 1</label>
+                <input type="text" name="attribute1" class="form-control" disabled value="{{ $attribute[0]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion1" disabled>{{ $attribute[0]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 2</label>
+                <input type="text" name="attribute2" class="form-control" disabled value="{{ $attribute[1]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion2" disabled>{{ $attribute[1]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 3</label>
+                <input type="text" name="attribute3" class="form-control" disabled value="{{ $attribute[2]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion3" disabled>{{ $attribute[2]['AS'] }}</textarea>
+            </div>
+
+            <h3 class="text-center title">Nivel de Madurez: <strong>{{ $attribute[3]['ML'] }}</strong></h3>
+
+            <div class="form-group">
+                <label for="">Atributo 4</label>
+                <input type="text" name="attribute4" class="form-control" disabled value="{{ $attribute[3]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion4" disabled>{{ $attribute[3]['AS'] }}</textarea>
+            </div>
+
+
+            <div class="form-group">
+                <label for="">Atributo 5</label>
+                <input type="text" name="attribute5" class="form-control" disabled value="{{ $attribute[4]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion5" disabled>{{ $attribute[4]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 6</label>
+                <input type="text" name="attribute6" class="form-control" disabled value="{{ $attribute[5]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion6" disabled>{{ $attribute[5]['AS'] }}</textarea>
+            </div>
+
+
+            <h3 class="text-center title">Nivel de Madurez: <strong>{{ $attribute[6]['ML'] }}</strong></h3>
+
+            <div class="form-group">
+                <label for="">Atributo 7</label>
+                <input type="text" name="attribute7" class="form-control" disabled value="{{ $attribute[6]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion7" disabled>{{ $attribute[6]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 8</label>
+                <input type="text" name="attribute8" class="form-control" disabled value="{{ $attribute[7]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion8" disabled>{{ $attribute[7]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 9</label>
+                <input type="text" name="attribute9" class="form-control" disabled value="{{ $attribute[8]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion9" disabled>{{ $attribute[8]['AS'] }}</textarea>
+            </div>
+
+            <h3 class="text-center title">Nivel de Madurez: <strong>{{ $attribute[9]['ML'] }}</strong></h3>
+
+            <div class="form-group">
+                <label for="">Atributo 10</label>
+                <input type="text" name="attribute10" class="form-control" disabled value="{{ $attribute[9]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion10" disabled>{{ $attribute[9]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 11</label>
+                <input type="text" name="attribute11" class="form-control" disabled value="{{ $attribute[10]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion11" disabled>{{ $attribute[10]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 12</label>
+                <input type="text" name="attribute12" class="form-control" disabled value="{{ $attribute[11]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion12" disabled>{{ $attribute[11]['AS'] }}</textarea>
+            </div>
+
+            <h3 class="text-center title">Nivel de Madurez: <strong>{{ $attribute[12]['ML'] }}</strong></h3>
+
+            <div class="form-group">
+                <label for="">Atributo 13</label>
+                <input type="text" name="attribute13" class="form-control" disabled value="{{ $attribute[12]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion13" disabled>{{ $attribute[12]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 14</label>
+                <input type="text" name="attribute14" class="form-control" disabled value="{{ $attribute[13]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion14" disabled>{{ $attribute[13]['AS'] }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="">Atributo 15</label>
+                <input type="text" name="attribute15" class="form-control" disabled value="{{ $attribute[14]['AD'] }}">
+            </div>
+
+            <div class="form-group">
+                <label for="">Sugerencia</label>
+                <textarea class="form-control" rows="5" name="suggestion15" disabled>{{ $attribute[14]['AS'] }}</textarea>
+            </div>
+
+
+            <div class='container text-center mt-3'>
+                <a href="{{ route('EditTest', $conceptId) }}" class="btn btn-warning"> Editar</a>
+                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteTest"> Eliminar Prueba</button>
+                <button class="btn btn-danger" id="eliminar" data-toggle="modal" data-target="#DeleteConcept"> Eliminar Concepto</button>
             </div>
         </div>
     </div>
@@ -353,14 +232,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div style="background-color: white;color: black;">
                     <div class="modal-body">
                         ¿Desea eliminar por completo esta prueba? Al presionar aceptar se eliminaran todos los datos y conceptos relacionados con esta prueba.
                     </div>
+
                     <div class="spinner-border m-5" role="status" style="display: none;">
                         <span class="sr-only">Cargando...</span>
                     </div>
                 </div>
+
+
                 <div class="modal-footer" style="background-color: white;color: black;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="window.location='{{ route('DeleteTest', $testId) }}'">Aceptar</button>
@@ -378,14 +261,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div style="background-color: white;color: black;">
                     <div class="modal-body">
                         ¿Desea eliminar este concepto? Al presionar aceptar se eliminaran los datos relacionados con la prueba del concepto actual.
                     </div>
+
                     <div class="spinner-border m-5" role="status" style="display: none;">
                         <span class="sr-only">Cargando...</span>
                     </div>
                 </div>
+
+
                 <div class="modal-footer" style="background-color: white;color: black;">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="window.location='{{ route('DeleteConcept',$conceptId) }}'">Aceptar</button>
@@ -393,4 +280,8 @@
             </div>
         </div>
     </div>
+
+
+
+
 @endsection

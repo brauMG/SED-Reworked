@@ -46,6 +46,6 @@ class EvidenceHideSuggestion extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.evidence-hide-suggestion');
+        return $this->view('pages.emails.evidence-hide-suggestion');
     }
 }

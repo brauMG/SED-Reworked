@@ -19,9 +19,9 @@
                             <h4 class="card-title text-white">Reemplazar Evidencia</h4>
                         </div>
                             <div class="card-body">
-                                <form method='POST' action="{{route('upload.update', $data->evidenceId)}}"
+                                <form method='POST' action="{{url('/upload/update', $data->evidenceId)}}"
                                     enctype='multipart/form-data'>
-                                    @method('PATCH')
+                                    @method('PUT')
                                     @csrf
 
                                     <div class="container" style="color:red !important;">

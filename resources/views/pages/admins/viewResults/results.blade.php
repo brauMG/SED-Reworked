@@ -20,7 +20,7 @@
                                                     @if(empty($areas))
                                                         <p class="card-category text-white">No hay áreas, puedes crear una <a href="{{ url('/admins/area/addArea') }}" class="text-info">aquí</a></p>
                                                     @else
-                                                        <div class="dropdown">
+                                                        <div class="dropdown" style="float: right">
                                                             <button class="btn dropdown-toggle dp-areas" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                 {{$areaSeleccionada->name}}
                                                             </button>
@@ -130,12 +130,11 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div class="col-md-6" style="height: 20vh">
+                                                <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" style="height: 35vh">
-                                        <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
-                                    </div>
-
                                 </div>
                             </div>
                     </div>
@@ -148,7 +147,7 @@
             @foreach($tests as $test)
                 var ctx = document.getElementById("myChart{{array_search($test,$tests)}}");
                 var lineChart = new Chart(ctx, {
-                    type: 'horizontalBar',
+                    type: 'bar',
                     data: {
                         labels: [
                             @foreach((array)$testsConcepts as $testConcept)
@@ -175,6 +174,12 @@
                         }]
                     },
                     options: {
+                        plugins:{
+                            legend: {
+                                display: false
+                            }
+                        },
+                        indexAxis: 'y',
                         scales: {
                             yAxes: [{
                                 ticks: {

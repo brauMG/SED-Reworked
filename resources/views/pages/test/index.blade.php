@@ -19,7 +19,7 @@
                             <h4 class="card-title text-white">Subir Evidencia</h4>
                         </div>
                             <div class="card-body">
-                                <form action="{{url('/upload')}}" method='POST' enctype="multipart/form-data" id='form'>
+                                <form action="{{url('/upload/create')}}" method='POST' enctype="multipart/form-data" id='form'>
                                     @csrf
 
                                     <div class="container" style="color:red !important;">
@@ -70,6 +70,4 @@
                 </div>
             </div>
         </div>
-    </div>
-
 @endsection

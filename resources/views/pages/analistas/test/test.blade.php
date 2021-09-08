@@ -54,57 +54,54 @@
                                         <p class='' style="text-align: start"><strong> Correo:</strong> {{$email}}</p>
                                     </tr>
                                     </div>
-                                <table class="table-responsive table-card-inline">
+                                <table class="table">
                                     <thead>
                                     <tr>
-                                        <th id="address addy"> Atributos</th>
-                                        <th id="address addy"> Descargar</th>
-                                        <th id="address addy"> Validar</th>
-                                        <th id="address addy"> Sugerencia</th>
+                                        <th class="text-center" id="address addy"> Atributos</th>
+                                        <th class="text-center" id="address addy"> Descargar</th>
+                                        <th class="text-center" id="address addy"> Validar</th>
+                                        <th class="text-center" id="address addy"> Sugerencia</th>
                                     </tr>
                                     </thead>
+                                    <tbody>
                                     @foreach($maturityLevels as $maturityLevel)
-                                        <tr class='heady'>
-                                            <th class='th-card bold' id="address addy" >
-                                                {{$maturityLevel->description}}
-                                            </th>
-                                        </tr>
+                                        <th class='text-center bg-secondary' id="address addy">{{$maturityLevel->description}}</th>
+                                        <th class='text-center bg-secondary' id="address addy"></th>
+                                        <th class='text-center bg-secondary' id="address addy"></th>
+                                        <th class='text-center bg-secondary' id="address addy"></th>
                                         @foreach($attributes as $attribute)
                                             @if($attribute->conceptMLId == $maturityLevel->conceptMLId)
                                                 <tr>
-                                                    <td style="text-align: justify">
-                                                        {{$attribute->description}}
-                                                    </td>
+                                                    <td class="text-center">{{$attribute->description}}</td>
                                                     <input type="hidden" name="attribute-name[]" value="{{$attribute->attributeId}}">
                                                     @for($i=0;$i < sizeof($attributesWithEvidences);$i++)
                                                         @if($attribute->attributeId == $attributesWithEvidences[$i]->attributeId)
                                                             <a type="hidden" {{$with_evidence = 1}}></a>
-                                                            <td>
-                                                                <a target="_blank" href="/storage/upload/{{$attributesWithEvidences[$i]->link}}" class="btn btn-evidence">
-                                                                    <div><span style="vertical-align: sub" class="material-icons">cloud_download</span>
-                                                                    </div>
+                                                            <td class="td-actions text-center">
+                                                                <a target="_blank" href="{{('/evidences/'.$attributesWithEvidences[$i]->link)}}" class="btn btn-evidence btn-sm">
+                                                                    <span style="vertical-align: sub" class="material-icons">cloud_download</span>
                                                                 </a>
                                                             </td>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <div class="form-check">
                                                                     <label class="form-check-label">
                                                                         <input type="hidden"  name="attributeCheck[{{$attributesWithEvidences[$i]->attributeId}}]" value="off">
                                                                         <input type="checkbox" class="form-check-input" name="attributeCheck[{{$attributesWithEvidences[$i]->attributeId}}]" id="attributeCheck{{$attributesWithEvidences[$i]->attributeId}}"@if($attributesWithEvidences[$i]->verified === 1)checked @else @endif>
                                                                         Validar evidencia
                                                                         <span class="form-check-sign">
-                                                                            <span class="check"></span>
+                                                                            <span class="check" style="top: 12px"></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
                                                             </td>
-                                                            <td>
+                                                            <td class="text-center">
                                                                 <div class="form-check">
                                                                     <label class="form-check-label">
                                                                         <input type="hidden"  name="suggestionCheck[{{$attributesWithEvidences[$i]->attributeId}}]" value="off" >
                                                                         <input type="checkbox" class="form-check-input" name="suggestionCheck[{{$attributesWithEvidences[$i]->attributeId}}]" id="suggestionCheck{{$attributesWithEvidences[$i]->attributeId}}">
                                                                         Enviar sugerencia
                                                                         <span class="form-check-sign">
-                                                                            <span class="check"></span>
+                                                                            <span class="check" style="top: 12px"></span>
                                                                         </span>
                                                                     </label>
                                                                 </div>
@@ -114,31 +111,29 @@
                                                     @if($with_evidence == 1)
                                                         <a type="hidden" {{$with_evidence = 0}}></a>
                                                     @else
-                                                        <td>
-                                                            <a class="btn btn-no-evidence">
-                                                                <div>
-                                                                    <i class="material-icons" style="vertical-align: sub">cloud_off</i>
-                                                                </div>
+                                                        <td class="td-actions text-center">
+                                                            <a class="btn btn-no-evidence btn-sm">
+                                                                <i class="material-icons" style="vertical-align: sub">cloud_off</i>
                                                             </a>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" class="form-check-input" value="off" disabled>
                                                                     Validar evidencia
                                                                     <span class="form-check-sign">
-                                                                            <span class="check"></span>
+                                                                            <span class="check" style="top: 12px"></span>
                                                                         </span>
                                                                 </label>
                                                             </div>
                                                         </td>
-                                                        <td>
+                                                        <td class="text-center">
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" class="form-check-input" value="off" disabled>
                                                                     Enviar sugerencia
                                                                     <span class="form-check-sign">
-                                                                            <span class="check"></span>
+                                                                            <span class="check" style="top: 12px"></span>
                                                                         </span>
                                                                 </label>
                                                             </div>

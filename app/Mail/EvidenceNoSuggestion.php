@@ -47,6 +47,6 @@ class EvidenceNoSuggestion extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.evidence-no-suggestion');
+        return $this->view('pages.emails.evidence-no-suggestion');
     }
 }

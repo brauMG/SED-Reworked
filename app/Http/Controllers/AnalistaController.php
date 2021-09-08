@@ -337,12 +337,12 @@ class AnalistaController extends Controller
         foreach ($myAttributes as $attribute)
         {
             $evidenceFromUser = Evidences::where('userId', $commonUserId)->where('attributeId', $attribute)->first();
-            if($evidenceFromUser['verified'] == 1){
+            if(isset($evidenceFromUser['verified']) == 1){
                 $getAttributeDescription = Attribute::where('attributeId', $attribute)->first();
                 $description = $getAttributeDescription->description;
                 $verify[] = $description;
             }
-            elseif ($evidenceFromUser['verified'] == 0){
+            elseif (isset($evidenceFromUser['verified']) == 0){
                 $getAttributeDescription = Attribute::where('attributeId', $attribute)->first();
                 $description = $getAttributeDescription->description;
                 $suggestion = $getAttributeDescription->suggestion;

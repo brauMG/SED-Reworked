@@ -37,7 +37,6 @@ class TestController extends Controller
         $selectedAttribute = Attribute::where('attributeId',$attributeId)->get()->toArray()[0];
         $evidences = Evidences::whereIn('attributeId',$attributesIds)->get()->toArray();
 
-
         return view('pages.test.index', compact('selectedAttribute', 'evidences', 'user'));
 
     }
@@ -46,29 +45,26 @@ class TestController extends Controller
     {
         Auth::user()->authorizeRoles(['analista', 'comun']);
 
-        if($request->hasFile('link'))
-        {
-            $fileName = time().$request->link->getClientOriginalName();
-            $request->link->storeAs('public/upload',$fileName);
-            $attributes = $this->validator();
-            $attributes['link'] = $fileName;
-            $evidences = Evidences::create($attributes);
+        $fileName = time().'.'.$request->link->extension();
+        $request->link->move(public_path('evidences'), $fileName);
+        $attributes['attributeId'] = $request->attributeId;
+        $attributes['verified'] = $request->verified;
+        $attributes['userId'] = $request->userId;
+        $attributes['companyId'] = $request->companyId;
+        $attributes['link'] = $fileName;
+        $evidences = Evidences::create($attributes);
+        $tesdIdAndConceptId = DB::table('attributes')
+            ->join('concept_maturity_level_attribute','concept_maturity_level_attribute.attributeId','=','attributes.attributeId')
+            ->join('concept_maturity_level','concept_maturity_level.conceptMLId','=','concept_maturity_level_attribute.conceptMLId')
+            ->join('test_concept','test_concept.conceptId','=','concept_maturity_level.conceptId')
+            ->select('test_concept.testId','test_concept.conceptId')
+            ->where('concept_maturity_level_attribute.attributeId',$attributes['attributeId'])
+            ->get()->toArray()[0];
 
-            $tesdIdAndConceptId = DB::table('attributes')
-                ->join('concept_maturity_level_attribute','concept_maturity_level_attribute.attributeId','=','attributes.attributeId')
-                ->join('concept_maturity_level','concept_maturity_level.conceptMLId','=','concept_maturity_level_attribute.conceptMLId')
-                ->join('test_concept','test_concept.conceptId','=','concept_maturity_level.conceptId')
-                ->select('test_concept.testId','test_concept.conceptId')
-                ->where('concept_maturity_level_attribute.attributeId',$attributes['attributeId'])
-                ->get()->toArray()[0];
-            if($evidences){
-                History::Logs('Subio una evidencia.');
-                return redirect()->route('comunTest',[$tesdIdAndConceptId->testId,$tesdIdAndConceptId->conceptId]);
-            }else{
-                return redirect()->back()->with(['errors'=>$evidences->save()->errors()->all()]);
-            };
-        }
+        History::Logs('Subio una evidencia.');
+        return redirect()->route('comunTest',[$tesdIdAndConceptId->testId,$tesdIdAndConceptId->conceptId]);
     }
+
     public function show(Request $request){
         Auth::user()->authorizeRoles(['analista', 'comun']);
 
@@ -91,36 +87,38 @@ class TestController extends Controller
 
         $user = auth()->user();
 
-
-        if($request->hasFile('link'))
-        {
-            Storage::delete("public/upload/$data->link");
-            $fileName = time().$request->link->getClientOriginalName();
-            $request->link->storeAs('public/upload',$fileName);
-
-            $fileName = time().$request->link->getClientOriginalName();
-            $attributes = $this->validator();
-            $evidences = Evidences::find($evidenceId)->update([
-                'link' => $fileName,
-                'attributeId' => $request->attributeId,
-                'userId' => $request->userId,
-                'companyId' => $request->companyId,
-                'verified' => $request->verified
-            ]);
-            $tesdIdAndConceptId = DB::table('attributes')
-                ->join('concept_maturity_level_attribute','concept_maturity_level_attribute.attributeId','=','attributes.attributeId')
-                ->join('concept_maturity_level','concept_maturity_level.conceptMLId','=','concept_maturity_level_attribute.conceptMLId')
-                ->join('test_concept','test_concept.conceptId','=','concept_maturity_level.conceptId')
-                ->select('test_concept.testId','test_concept.conceptId')
-                ->where('concept_maturity_level_attribute.attributeId',$attributes['attributeId'])
-                ->get()->toArray()[0];
-
-            if($evidences){
-                return redirect()->route('comunTest',[$tesdIdAndConceptId->testId,$tesdIdAndConceptId->conceptId]);
-            }else{
-                return redirect()->back()->with(['errors'=>$evidences->save()->errors()->all()]);
-            };
+        $original = Evidences::find($evidenceId);
+        $imageURL = '/evidences/'.$original->link;
+        if(file_exists(public_path($imageURL))){
+            unlink(public_path($imageURL));
         }
+        $fileName = time().'.'.$request->link->extension();
+        $request->link->move(public_path('evidences'), $fileName);
+        $attributes['attributeId'] = $request->attributeId;
+        $attributes['verified'] = $request->verified;
+        $attributes['userId'] = $request->userId;
+        $attributes['companyId'] = $request->companyId;
+        $attributes['link'] = $fileName;
+        $evidences = Evidences::find($evidenceId)->update([
+            'link' => $fileName,
+            'attributeId' => $request->attributeId,
+            'userId' => $request->userId,
+            'companyId' => $request->companyId,
+            'verified' => $request->verified
+        ]);
+        $tesdIdAndConceptId = DB::table('attributes')
+            ->join('concept_maturity_level_attribute','concept_maturity_level_attribute.attributeId','=','attributes.attributeId')
+            ->join('concept_maturity_level','concept_maturity_level.conceptMLId','=','concept_maturity_level_attribute.conceptMLId')
+            ->join('test_concept','test_concept.conceptId','=','concept_maturity_level.conceptId')
+            ->select('test_concept.testId','test_concept.conceptId')
+            ->where('concept_maturity_level_attribute.attributeId',$attributes['attributeId'])
+            ->get()->toArray()[0];
+
+        if($evidences){
+            return redirect()->route('comunTest',[$tesdIdAndConceptId->testId,$tesdIdAndConceptId->conceptId]);
+        }else{
+            return redirect()->back()->with(['errors'=>$evidences->save()->errors()->all()]);
+        };
     }
     public function validator()
     {
