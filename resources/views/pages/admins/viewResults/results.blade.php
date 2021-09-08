@@ -39,6 +39,8 @@
                                                     @else
                                                     @endif
                                                 </div>
+                                            </div>
+                                        </div>
 
                         @foreach($tests as $test)
                             <div class="col-md-6">
@@ -137,8 +139,6 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
-                </div>
                 @endforeach
             </div>
         </div>
