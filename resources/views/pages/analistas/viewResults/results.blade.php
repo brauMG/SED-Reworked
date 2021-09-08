@@ -12,6 +12,7 @@
                     @endif
                 </div>
 
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header bg-dark">
                             <h4 class="card-title text-white">Resultados</h4>
@@ -38,8 +39,11 @@
                             @else
                             @endif
                         </div>
+                    </div>
+                </div>
 
                         @foreach($tests as $test)
+                        <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header card-header-info">
                                         <h4 class="card-title">{{$test['name']}}</h4>
@@ -134,11 +138,12 @@
                                         </div>
                                     </div>
                                 </div>
-                    </div>
+                        </div>
                 @endforeach
             </div>
         </div>
     </div>
+
     <script>
             @foreach($tests as $test)
         var ctx = document.getElementById("myChart{{array_search($test,$tests)}}");
