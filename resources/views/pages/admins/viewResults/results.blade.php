@@ -142,7 +142,6 @@
                 @endforeach
             </div>
         </div>
-    </div>
     <script>
             @foreach($tests as $test)
                 var ctx = document.getElementById("myChart{{array_search($test,$tests)}}");
