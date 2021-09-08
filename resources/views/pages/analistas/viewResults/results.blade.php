@@ -54,7 +54,7 @@
                                         @endforeach
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
+
                                             <div class="col-md-6 charts-list-scroll">
                                                 <table class="table-bordered table-striped charts-table">
                                                     <thead>
@@ -133,7 +133,6 @@
                                             <div class="col-md-6" style="height: 20vh">
                                                 <canvas id="myChart{{array_search($test,$tests)}}"></canvas>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
