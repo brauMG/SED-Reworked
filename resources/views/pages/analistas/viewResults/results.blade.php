@@ -3,7 +3,6 @@
 @section('content')
     <div class="content">
         <div class="container-fluid">
-            <div class="row">
                 <div class="col-md-12">
                     @if ( session('mensaje') )
                         <div class="container-edits" style="margin-top: 2%">
@@ -140,8 +139,9 @@
                     </div>
                 </div>
                 @endforeach
-            </div>
+
         </div>
+    </div>
     <script>
             @foreach($tests as $test)
         var ctx = document.getElementById("myChart{{array_search($test,$tests)}}");
