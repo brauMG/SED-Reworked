@@ -23,7 +23,7 @@
                                     @csrf
 
                                     <div class="container" style="color:red !important;">
-                                        Tamaño Máximo del Archivo: 50 MB
+                                        Tamaño Máximo del Archivo: 500 MB
                                     </div>
 
                                     <div class="container">
