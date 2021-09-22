@@ -449,6 +449,8 @@ class CreateTestController
             ->where('areas.companyId', Auth::user()->companyId)
             ->select('tests.*', 'users.username as user')
             ->get();
+
+        dd($pruebas);
         $groupML = DB::table('maturity_levels_group')->where('maturity_levels_group.companyId','=',$userCompany)->get()->toArray();
 
         return view('pages.admins.area.test.duplicate', compact(/*'areas',*/ 'userCompany', 'roles', 'role_user', 'users', 'tests', 'areas2', 'pruebas', 'groupML') );
