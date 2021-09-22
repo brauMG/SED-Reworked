@@ -19,6 +19,7 @@
                             <p class="card-category">Estas son las distintas pruebas registradas en el sistema.</p>
                             <a type="button" class="btn btn-primary" id="new" href="{{url('/admins/area/test/create')}}">Agregar Prueba <i class="material-icons">add_box</i></a>
                             <a type="button" class="btn btn-primary" id="new" href="{{url('/admins/area/concept_test/create')}}">Agregar Conceptos a Pruebas <i class="material-icons">add_box</i></a>
+                            <a type="button" class="btn btn-primary" id="new" href="{{url('/admins/area/test/duplicate')}}">Duplicar Prueba <i class="material-icons">edit</i></a>
                         </div>
 
                         <div class="card-body">

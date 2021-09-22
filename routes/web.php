@@ -88,8 +88,12 @@ Route::put('/admins/user/{id}', 'App\Http\Controllers\AdminsController@UpdateUse
 Route::prefix('createTest')->group(function () {
     Route::post('/admins', 'App\Http\Controllers\CreateTestController@store');
 });
+Route::prefix('duplicateTest')->group(function () {
+    Route::post('/admins', 'App\Http\Controllers\CreateTestController@duplicate_store');
+});
 Route::get('/admins/area/test/users', 'App\Http\Controllers\CreateTestController@getUsers');
 Route::get('/admins/area/test/create', 'App\Http\Controllers\CreateTestController@create');
+Route::get('/admins/area/test/duplicate', 'App\Http\Controllers\CreateTestController@duplicate');
 Route::prefix('conceptTest')->group(function () {
     Route::post('/admins', 'App\Http\Controllers\ConceptTestController@store');
 });

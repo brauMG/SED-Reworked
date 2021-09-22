@@ -197,6 +197,12 @@
                                             <span class="sidebar-normal"> {{ __('Añadir Prueba') }} </span>
                                         </a>
                                     </li>
+                                    <li class="nav-item{{ $activePage == 'AdminDubTests' ? ' active' : '' }}">
+                                        <a class="nav-link" href="{{ url('/admins/area/test/duplicate') }}">
+                                            <i class="material-icons text-white">edit</i>
+                                            <span class="sidebar-normal"> {{ __('Duplicar Prueba') }} </span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </li>

@@ -430,6 +430,80 @@ class CreateTestController
         return redirect('/admins/area/test/listTest')->with('mensaje', 'Prueba '.$addTest['name'].' creada correctamente.');
     }
 
+    public function duplicate(Request $request)
+    {
+        Auth::user()->authorizeRoles(['admin']);
+        $id = Auth::user()->companyId;
+        $areas2 = DB::table('areas')->where('areas.companyId','=',$id)->get()->toArray();
+        $user = auth()->user();
+        $userCompany = $user->companyId;
+//        $areas = DB::table('areas')->where('areas.companyId','=',$userCompany)->get()->toArray();
+        $roles = Role::all(['id']);
+        $users = User::all(['id', 'firstName', 'lastName', 'companyId']);
+        $role_user = Role_User::all();
+        $tests = Test::all();
+        $pruebas = DB::table('tests')->join('areas', 'tests.areaId', 'areas.areaId')->where('areas.companyId', Auth::user()->companyId)->select('tests.*')->get();
+        $groupML = DB::table('maturity_levels_group')->where('maturity_levels_group.companyId','=',$userCompany)->get()->toArray();
+
+        return view('pages.admins.area.test.duplicate', compact(/*'areas',*/ 'userCompany', 'roles', 'role_user', 'users', 'tests', 'areas2', 'pruebas', 'groupML') );
+    }
+
+    public function duplicate_store(Request $request)
+    {
+        $MLGroupId = $request->input('groupML');
+        $dataArea = $this->validatorArea();
+        $dataUser = $this->validatorUser();
+        $dataTestToDuplicate = $request->input('duplicateTest');
+        $originalTest = Test::where('testId', $dataTestToDuplicate)->get();
+        $originalTest = $originalTest[0];
+        $maturity = DB::table('maturity_levels')->where('maturity_levels.MLGroupId','=', $MLGroupId)->get()->toArray();
+
+        $addTest = Test::create([
+            'startedAt' => date('Y-m-d'),
+            'areaId' => $dataArea['area'],
+            'name' => $request['name'],
+            'MLGroupId' => $request['groupML']
+        ]);
+        $addTest->test_user()->attach($dataUser);
+
+        $old_concepts = DB::table('test_concept')
+            ->join('concepts', 'test_concept.conceptId', 'concepts.conceptId')
+            ->where('test_concept.testId', $originalTest->testId)
+            ->get();
+
+        foreach ($old_concepts as $old_concept) {
+            $conceptAdd = Concept::create([
+                'description' => $old_concept->description
+            ]);
+            $addTest->test_concept()->attach($conceptAdd->conceptId);
+
+            for($i = 0; $i < 5; $i++) {
+                $conceptAdd->concept_maturity_level()->attach($maturity[$i]->maturityLevelId);
+            }
+
+            $original_concept_maturity_level = DB::table('concept_maturity_level')
+                ->join('concept_maturity_level_attribute', 'concept_maturity_level.conceptMLId', 'concept_maturity_level_attribute.conceptMLId')
+                ->join('attributes', 'concept_maturity_level_attribute.attributeId', 'attributes.attributeId')
+                ->where('concept_maturity_level.conceptId', $old_concept->conceptId)
+                ->select('concept_maturity_level_attribute.*', 'attributes.*')
+                ->get();
+
+            foreach ($original_concept_maturity_level as $original) {
+                $addAttribute = Attribute::create([
+                    'description'=> $original->description,
+                    'suggestion' => $original->suggestion,
+                    'send' => false
+                ]);
+                $concept_maturity_level = DB::table('concept_maturity_level')->get()->toArray();
+                $addAttribute->concept_maturity_level_attribute()->attach(end($concept_maturity_level)->conceptMLId);
+            }
+
+            History::Logs('Prueba/Concepto '.$addTest['name'].' duplicada correctamente.');
+        }
+
+        return redirect('/admins/area/test/listTest')->with('mensaje', 'Duplicado correctamente.');
+    }
+
     public function validatorConcept()
     {
         return request()->validate([
