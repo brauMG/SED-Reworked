@@ -30,7 +30,7 @@ use App\Models\User_Area;
                     <label for="name">Duplicar Prueba</label>
                     <select data-old="{{ old('duplicateTest') }}"  type='text' required class="custom-select @error('duplicateTest') is-invalid @enderror" name="duplicateTest">
                         @foreach($pruebas as $prueba)
-                            <option value="{{ $prueba->testId }}">
+                            <option value="{{$prueba->user}} - {{ $prueba->testId }}">
                                 {{ $prueba->name }}
                             </option>
                         @endforeach

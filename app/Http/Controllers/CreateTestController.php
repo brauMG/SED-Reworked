@@ -442,7 +442,13 @@ class CreateTestController
         $users = User::all(['id', 'firstName', 'lastName', 'companyId']);
         $role_user = Role_User::all();
         $tests = Test::all();
-        $pruebas = DB::table('tests')->join('areas', 'tests.areaId', 'areas.areaId')->where('areas.companyId', Auth::user()->companyId)->select('tests.*')->get();
+        $pruebas = DB::table('tests')
+            ->join('areas', 'tests.areaId', 'areas.areaId')
+            ->join('test_user', 'tests.testId', 'test_user.testId')
+            ->join('users', 'test_user.userId', 'users.id')
+            ->where('areas.companyId', Auth::user()->companyId)
+            ->select('tests.*', 'users.name as user')
+            ->get();
         $groupML = DB::table('maturity_levels_group')->where('maturity_levels_group.companyId','=',$userCompany)->get()->toArray();
 
         return view('pages.admins.area.test.duplicate', compact(/*'areas',*/ 'userCompany', 'roles', 'role_user', 'users', 'tests', 'areas2', 'pruebas', 'groupML') );
