@@ -447,7 +447,7 @@ class CreateTestController
             ->join('test_user', 'tests.testId', 'test_user.testId')
             ->join('users', 'test_user.userId', 'users.id')
             ->where('areas.companyId', Auth::user()->companyId)
-            ->select('tests.*', 'users.name as user')
+            ->select('tests.*', 'users.username as user')
             ->get();
         $groupML = DB::table('maturity_levels_group')->where('maturity_levels_group.companyId','=',$userCompany)->get()->toArray();
 
