@@ -62,9 +62,11 @@
                                 </thead>
                                 <tbody>
                                         @foreach($maturityLevels as $maturityLevel)
-                                        <th class='text-center bg-secondary' id="address addy">{{$maturityLevel->description}}</th>
-                                        <th class='text-center bg-secondary' id="address addy"></th>
-                                        <th class='text-center bg-secondary' id="address addy"></th>
+                                            <tr>
+                                                <th class='text-center bg-secondary' id="address addy">{{$maturityLevel->description}}</th>
+                                                <th class='text-center bg-secondary' id="address addy"></th>
+                                                <th class='text-center bg-secondary' id="address addy"></th>
+                                            </tr>
                                             @foreach($attributes as $attribute)
                                                 @if($attribute->conceptMLId == $maturityLevel->conceptMLId)
                                                 <tr>
