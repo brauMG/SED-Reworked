@@ -502,7 +502,7 @@ class CreateTestController
                     'send' => false
                 ]);
                 $concept_maturity_level = DB::table('concept_maturity_level')->get()->toArray();
-                $addAttribute->concept_maturity_level_attribute()->attach(end($concept_maturity_level)->conceptMLId);
+                $addAttribute->concept_maturity_level_attribute()->attach(end($concept_maturity_level->conceptMLId));
             }
 
             History::Logs('Prueba/Concepto '.$addTest['name'].' duplicada correctamente.');
