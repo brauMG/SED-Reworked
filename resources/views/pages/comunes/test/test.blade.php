@@ -61,7 +61,42 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                        @foreach($maturityLevels as $maturityLevel)
+                                            <tr>
+                                                <th class='text-center bg-secondary' id="address addy">{{$maturityLevel->description}}</th>
+                                                <th class='text-center bg-secondary' id="address addy"></th>
+                                                <th class='text-center bg-secondary' id="address addy"></th>
+                                            </tr>
+                                            @foreach($attributes as $attribute)
+                                                @if($attribute->conceptMLId == $maturityLevel->conceptMLId)
+                                                <tr>
+                                                    <td class="text-center">{{$attribute->description}}</td>
+                                                    @for($i=0;$i < sizeof($attributesWithEvidences);$i++)
+                                                        @if($attribute->attributeId == $attributesWithEvidences[$i]->attributeId)
+                                                            <a type="hidden" {{$with_evidence = 1}}></a>
+                                                            <td class="td-actions text-center">
+                                                                <a href="/upload/{{$attributesWithEvidences[$i]->evidenceId}}/edit" class="btn btn-danger btn-sm">Reemplazar evidencia</a>
+                                                            </td>
+                                                            <td class="td-actions text-center">
+                                                                <a href="{{'/evidences/'.$attributesWithEvidences[$i]->link}}" target="_blank" class="btn btn-success btn-sm">Ver</a>
+                                                            </td>
+                                                        @endif
+                                                    @endfor
+                                                    @if($with_evidence == 1)
+                                                        <a type="hidden" {{$with_evidence = 0}}></a>
+                                                    @else
+                                                        <td class="td-actions text-center">
+                                                            <a href="/upload/{{$attribute->attributeId}}" class="btn btn-primary">Subir Evidencia</a>
+                                                        </td>
+                                                        <td class="td-actions text-center">
+                                                            <a class="btn btn-danger btn-sm">Nada</a>
+                                                        </td>
+                                                        <a type="hidden"{{ $with_evidence = 0 }}></a>
+                                                    @endif
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @endforeach
                                 </tbody>
                             </table>
                         </div>
