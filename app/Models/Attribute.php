@@ -31,7 +31,8 @@ class Attribute extends Model
         return $attributes = DB::table('attributes')
             ->join('concept_maturity_level_attribute','concept_maturity_level_attribute.attributeId','=','attributes.attributeId')
             ->whereIn('concept_maturity_level_attribute.conceptMLId',$maturityLevelsId)
-            ->get()->toArray();
+            ->get()
+            ->toArray();
     }
 
     public static function attributesFromAnArrayOfMatLevelsWithEvidences($maturityLevelsId)

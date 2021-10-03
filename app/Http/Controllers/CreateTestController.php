@@ -495,14 +495,22 @@ class CreateTestController
                 ->select('concept_maturity_level_attribute.*', 'attributes.*')
                 ->get();
 
+
+            $i = 4;
+            $steps = 0;
             foreach ($original_concept_maturity_level as $original) {
                 $addAttribute = Attribute::create([
                     'description'=> $original->description,
                     'suggestion' => $original->suggestion,
                     'send' => false
                 ]);
-                $concept_maturity_level = DB::table('concept_maturity_level')->get()->toArray();
-                $addAttribute->concept_maturity_level_attribute()->attach(end($concept_maturity_level->conceptMLId));
+                $concept_maturity_level = DB::table('concept_maturity_level')->orderBy('conceptMLId', 'desc')->take(5)->get()->toArray();
+                $concept_maturity_level = $concept_maturity_level[$i];
+                $addAttribute->concept_maturity_level_attribute()->attach($concept_maturity_level->conceptMLId);
+                if ($steps == 2 || $steps == 5 || $steps == 8 || $steps == 11 || $steps == 14) {
+                    $i--;
+                }
+                $steps++;
             }
 
             History::Logs('Prueba/Concepto '.$addTest['name'].' duplicada correctamente.');

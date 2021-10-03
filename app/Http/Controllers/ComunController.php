@@ -63,12 +63,6 @@ class ComunController extends Controller
 
         $with_evidence = 0;
 
-        foreach ($maturityLevels as $maturityLevel) {
-            foreach ($attributes as $attribute) {
-                dd($maturityLevel, $attribute);
-            }
-        }
-
         return view('pages.comunes.test.test',compact('test','selectedConcept','concepts','maturityLevels','attributes','attributesWithEvidences', 'with_evidence'));
     }
 }
