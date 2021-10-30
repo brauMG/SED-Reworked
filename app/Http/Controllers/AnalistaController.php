@@ -357,39 +357,39 @@ class AnalistaController extends Controller
             }
         }
 
-        if ($notSend == 15 and $valid == 15) {
-            foreach ($emailsAnalistas as $emailAnalista) {
-                Mail::to($emailAnalista)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            foreach ($emailsAdmins as $emailAdmin) {
-                Mail::to($emailAdmin)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            Mail::to($email)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-        }
-        else if ($notSend == 15) {
-            foreach ($emailsAnalistas as $emailAnalista) {
-                Mail::to($emailAnalista)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            foreach ($emailsAdmins as $emailAdmin) {
-                Mail::to($emailAdmin)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            Mail::to($email)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
-        }
-        else {
-            foreach ($emailsAnalistas as $emailAnalista) {
-                Mail::to($emailAnalista)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            foreach ($emailsAdmins as $emailAdmin) {
-                Mail::to($emailAdmin)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
-            }
-
-            Mail::to($email)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
-        }
+//        if ($notSend == 15 and $valid == 15) {
+//            foreach ($emailsAnalistas as $emailAnalista) {
+//                Mail::to($emailAnalista)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            foreach ($emailsAdmins as $emailAdmin) {
+//                Mail::to($emailAdmin)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            Mail::to($email)->queue(new EvidenceNoSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//        }
+//        else if ($notSend == 15) {
+//            foreach ($emailsAnalistas as $emailAnalista) {
+//                Mail::to($emailAnalista)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            foreach ($emailsAdmins as $emailAdmin) {
+//                Mail::to($emailAdmin)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            Mail::to($email)->queue(new EvidenceHideSuggestion($verify, $unverify, $username, $testName, $analistName, $observation, $phone, $address));
+//        }
+//        else {
+//            foreach ($emailsAnalistas as $emailAnalista) {
+//                Mail::to($emailAnalista)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            foreach ($emailsAdmins as $emailAdmin) {
+//                Mail::to($emailAdmin)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
+//            }
+//
+//            Mail::to($email)->queue(new EvidenceSuggestion($verify, $unverify, $recommendation, $username, $testName, $analistName, $observation, $phone, $address));
+//        }
 
 //        /*this line is used to create and return a new instance of the email view, can be used for testing how the email view looks like.
 
