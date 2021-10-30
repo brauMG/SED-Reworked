@@ -398,6 +398,6 @@ class AnalistaController extends Controller
 //        comment the return redirect and the Email::to lines in order to use this */
 
         History::Logs('Envio los resultados de la prueba '.$testName.' a los respectivos correos.');
-        return redirect('/analista')->with('mensaje', 'Los resultados fueron enviados por correo electrónico de forma exitosa.');
+        return redirect('/analista')->with('mensaje', 'Los resultados fueron enviados.');
     }
 }
