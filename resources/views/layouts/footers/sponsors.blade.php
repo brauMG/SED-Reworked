@@ -6,7 +6,7 @@
             <ul class="sponsors-ul-inside" id="c" style="display: inline-flex; flex: auto; text-align: center; margin: 10px">
                 @foreach($sponsors->get() as $sponsor)
                     <li class="sponsors-li-inside" data-toggle="tooltip" data-placement="top" title="Ver información del patrocinador" style="width: 20%; display: none">
-                        <img width="50" height="50" data-toggle="modal" data-target="#info{{$sponsor->id}}" src="{{ URL::to('/') }}/sponsors/{{ $sponsor->image }}" class="sponsors-img-inside"/>
+                        <img width="50" height="50" data-toggle="modal" data-target="#info{{$sponsor->sponsorId}}" src="{{ URL::to('/') }}/sponsors/{{ $sponsor->image }}" class="sponsors-img-inside"/>
                     </li>
                 @endforeach
             </ul>
@@ -15,7 +15,7 @@
 @endif
 
 @foreach($sponsors->get() as $sponsor)
-    <div class="modal show" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="info{{$sponsor->sponsorId}}">
+    <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" id="info{{$sponsor->sponsorId}}">
         <div class="modal-dialog padding-modal" role="document">
             <form target="_blank" action="https://{{$sponsor->link}}">
                 <div class="modal-content"style="background-color: #ffffff;color: white;">

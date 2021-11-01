@@ -150,7 +150,6 @@ class CreateTestController
         Auth::user()->authorizeRoles(['admin']);
 
         $request->validate([
-            'testName' => ['required', 'string','max:255'],
             'username' => ['required', 'string', 'max:50'],
             'groupML' => ['required'],
             'conceptName' => ['required', 'string', 'max:5000'],
@@ -183,7 +182,7 @@ class CreateTestController
             'attribute14' => ['required', 'string','max:5000'],
             'suggestion14' => ['required', 'string','max:5000'],
             'attribute15' => ['required', 'string','max:5000'],
-            'suggestion15' => ['required', 'string','max:5000'],
+            'suggestion15' => ['required', 'string','max:5000']
         ]);
 
         $testId = TestConcept::where('conceptId', $conceptId)->get()->toArray();
@@ -271,7 +270,6 @@ class CreateTestController
         $actualUserId = $actualUserId[0]['userId'];
 
         Test::where('testId', $testId)->update([
-            'name' => $testName,
             'MLGroupId' => $newGroupId
         ]);
 

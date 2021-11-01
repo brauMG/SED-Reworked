@@ -215,7 +215,7 @@
 
                     <div class="form-group">
                         <label for="">Sugerencia</label>
-                        <textarea class="form-control" rows="5" name="suggestion14" required>{{ $attribute[14]['AS'] }}</textarea>
+                        <textarea class="form-control" rows="5" name="suggestion15" required>{{ $attribute[14]['AS'] }}</textarea>
                     </div>
 
 
